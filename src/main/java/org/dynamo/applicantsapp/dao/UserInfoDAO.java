@@ -21,7 +21,7 @@ public class UserInfoDAO {
     }
     
     public UserInfo findUserInfo(String userName) {
-        String sql = "Select new " + UserInfo.class.getName() + "(u.email,u.password) "//
+        String sql = "Select new " + UserInfo.class.getName() + "(u.email,u.password,u.first_name, u.last_name) "//
                 + " from " + User.class.getName() + " u where u.email = :username ";
  
         Session session = sessionFactory.getCurrentSession();

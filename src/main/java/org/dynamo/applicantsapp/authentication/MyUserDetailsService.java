@@ -19,8 +19,7 @@ public class MyUserDetailsService implements UserDetailsService {
  
     @Autowired
     private UserInfoDAO userInfoDAO;
- 
-    @Override
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserInfo userInfo = userInfoDAO.findUserInfo(username);        
         
@@ -36,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_APPLICANT");
         grantList.add(authority);
          
-        UserDetails userDetails = (UserDetails) new User(userInfo.getUserName(), //
+        UserDetails userDetails = (UserDetails) new User(userInfo.getFirstName() + " " + userInfo.getLastName(), //
                 userInfo.getPassword(),grantList);
         return userDetails;
     }
