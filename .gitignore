@@ -4,3 +4,4 @@ target
 .classpath
 .project
 *iml
+src/main/resources/datasource-cfg.properties
