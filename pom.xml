@@ -155,6 +155,7 @@
                 <configuration>
                     <path>/</path>
                     <port>8082</port>
+                    <!-- contextReloadable>true</contextReloadable -->
                 </configuration>
                   
             </plugin>

@@ -32,4 +32,14 @@ ALTER TABLE public.users
     OWNER to postgres;
 	
 INSERT INTO users (first_name, last_name, email, password)
-VALUES ('Vadim', 'Merkotan', 'vadim.merkotan@silverlinecrm.com', 'qwerty');
+VALUES ('Ivan', 'Ivanov', 'test@example.com', 'qwerty');
+
+    create table products (
+        code varchar(20) not null unique,
+        name varchar(255) not null,
+        price double precision not null,
+        primary key (Code)
+    );
+    
+    insert into products (code, name, price)
+	values ('P002', 'Samsung S7', 99);

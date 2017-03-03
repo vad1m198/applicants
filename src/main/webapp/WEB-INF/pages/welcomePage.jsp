@@ -14,7 +14,9 @@
   </c:if>
   
 </div>
-    <h2>User Info Page</h2>
-    <h3>Welcome : ${pageContext.request.userPrincipal.name}</h3> 
+	
+    <h2>Welcome Page</h2>
+    <h3>Welcome : ${pageContext.request.userPrincipal.name}</h3>
+    <a href="${pageContext.request.contextPath}/productList">Continue</a>
 </body>
 </html>
