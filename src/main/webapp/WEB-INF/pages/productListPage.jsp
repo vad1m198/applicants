@@ -17,14 +17,14 @@
     <a href="${pageContext.request.contextPath}/shoppingCart">Shopping Cart</a>  
 </div>
 
-    <h2>Product List Page</h2> 
-     
+    <h2>Product List Page</h2>
+
    <c:forEach items="${products}" var="prodInfo">
        <div style="border: 1px solid #ccc;padding:5px;margin:5px;">
            <ul>
                <li>Code: ${prodInfo.code}</li>
                <li>Name: ${prodInfo.name}</li>
-               <li>Price: <fmt:formatNumber value="${prodInfo.price}" type="currency"/></li>
+               <li>Price: <fmt:formatNumber currencySymbol="$" value="${prodInfo.price}" type="currency"/></li>
                <li><a href="${pageContext.request.contextPath}/buyProduct?code=${prodInfo.code}">Add to cart</a></li>
            </ul>
        </div>

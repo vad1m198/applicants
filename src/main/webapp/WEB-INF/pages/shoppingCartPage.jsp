@@ -44,10 +44,10 @@
 	                              path="cartLines[${varStatus.index}].productInfo.code" />
 	                   </li>
 		               <li>Name: ${cartLineInfo.productInfo.name}</li>               
-		               <li>Price: <fmt:formatNumber value="${cartLineInfo.productInfo.price}" type="currency"/></li>
+		               <li>Price: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.productInfo.price}" type="currency"/></li>
 		               <li>Quantity:<form:input path="cartLines[${varStatus.index}].quantity" class="quantity" onchange="validateInput(this)" data-val="true"/>
 		               	</li>
-		               <li>Amount: <fmt:formatNumber value="${cartLineInfo.amount}" type="currency"/></li>
+		               <li>Amount: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.amount}" type="currency"/></li>
 		           </ul>
 		       </div>
 		   </c:forEach>
