@@ -59,7 +59,9 @@
   <script type="text/javascript">  
   	  var updateQuantityElem = document.getElementById("updateQuantity");
       function validateInput(elem) {
-    	  if(isNaN(elem.value.trim())) {
+          var value = elem.value.trim();
+          if(isNaN(value) || parseInt(value) != value || !Number.isSafeInteger(parseInt(value))
+              || parseInt(value) <= 0) {
     		  elem.dataset.val = false;   
     		  elem.classList.add("error");
     	  } else {
