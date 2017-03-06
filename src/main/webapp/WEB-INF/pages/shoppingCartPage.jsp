@@ -6,56 +6,67 @@
 <html>
 <head>
 <title>Shopping Cart</title>
-<style>
-.quantity {
-    width: 45px
-}
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 
-.quantity.error {
-    border: 1px solid red
-}
-</style>
 </head>
 <body>
+<div class="slds">
+	<jsp:include page="_header.jsp" />	
+	<nav role="navigation" aria-label="Breadcrumbs">
+	  <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
+	    <li class="slds-breadcrumb__item slds-text-title--caps"><a href="${pageContext.request.contextPath}/productList">Back to product list</a></li>    
+	  </ol>
+	</nav>
 
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
-  
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-  </c:if>
-  
-</div>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
-    <a href="${pageContext.request.contextPath}/productList">Back to product list</a>  
-</div>
-
-    <h2>Shopping Cart Page</h2>
+    <div class="slds-text-heading--medium slds-m-around--medium">Shopping Cart Page</div>
     
    <c:if test="${empty cartForm or empty cartForm.cartLines}">
-       <h2>There is no items in Cart</h2>       
+       <div class="slds-text-heading--small slds-m-around--medium">There is no items in Cart</div>   
    </c:if> 
-   <c:if test="${not empty cartForm and not empty cartForm.cartLines   }">
+   <c:if test="${not empty cartForm and not empty cartForm.cartLines}">
 	   <form:form method="POST" modelAttribute="cartForm" action="${pageContext.request.contextPath}/shoppingCart">
-		   <c:forEach items="${cartForm.cartLines}" var="cartLineInfo" varStatus="varStatus">
-		   		
-		       <div style="border: 1px solid #ccc;padding:5px;margin:5px;">
-		           <ul>
-	                   <li>Code: ${cartLineInfo.productInfo.code} <form:hidden
-	                              path="cartLines[${varStatus.index}].productInfo.code" />
-	                   </li>
-		               <li>Name: ${cartLineInfo.productInfo.name}</li>               
-		               <li>Price: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.productInfo.price}" type="currency"/></li>
-		               <li>Quantity:<form:input path="cartLines[${varStatus.index}].quantity" class="quantity" onchange="validateInput(this)" data-val="true"/>
-		               	</li>
-		               <li>Amount: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.amount}" type="currency"/></li>		               
-		           </ul>
-		       </div>
-		   </c:forEach>
-		   <div style="clear: both"></div>
-	       <input id="updateQuantity" type="submit" value="Update Quantity" />
+		   <div class="sl-cart-container">
+			   <c:forEach items="${cartForm.cartLines}" var="cartLineInfo" varStatus="varStatus">
+			   
+			     <article class="slds-card slds-m-around--medium">
+				  <div class="slds-card__header">
+				    <header class="slds-has-flexi-truncate">
+				      <div class="slds-media__body">
+				        <h2><span class="slds-text-heading--small slds-truncate">${cartLineInfo.productInfo.name}</span></h2>
+				      </div>
+				    </header>
+				  </div>
+				  <div class="slds-card__body">
+				    <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+				      <div class="slds-tile slds-card__tile slds-p-horizontal--small slds-hint-parent">
+				          <div class="slds-tile__detail slds-text-body--small">
+				            <dl class="slds-list--horizontal slds-wrap">
+				              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="First Label">Code:</dt>
+				              <dd class="slds-item--detail slds-truncate"> ${cartLineInfo.productInfo.code} <form:hidden
+		                              path="cartLines[${varStatus.index}].productInfo.code" /></dd>
+				              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Second Label">Price:</dt>
+				              <dd class="slds-item--detail slds-truncate"><fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.productInfo.price}" type="currency"/></dd>
+				              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Second Label">Quantity:</dt>
+				              <dd class="slds-item--detail slds-truncate"><form:input path="cartLines[${varStatus.index}].quantity" class="quantity slds-input" onchange="validateInput(this)" data-val="true"/></dd>
+				              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Second Label">Amount:</dt>
+				              <dd class="slds-item--detail slds-truncate"> <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.amount}" type="currency"/></dd>
+				            </dl>          
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</article>
+			   </c:forEach>
+		   </div>		   
+			<div class="slds-button-group slds-m-left--medium" role="group">
+			  <button class="slds-button slds-button--neutral" id="updateQuantity" type="submit" value="Update Quantity">Update Quantity</button>			  
+			  <a class="slds-button slds-button--neutral" href="${pageContext.request.contextPath}/shoppingCartCustomer">Place Order</a>  
+			</div>	       
 	   </form:form> 
-	   <a href="${pageContext.request.contextPath}/shoppingCartCustomer">Place Order</a>  
+	   
    </c:if>  
+</div>
 </body>
   <script type="text/javascript">  
   	  var updateQuantityElem = document.getElementById("updateQuantity");

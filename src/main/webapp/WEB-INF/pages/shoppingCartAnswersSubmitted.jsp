@@ -12,6 +12,7 @@
   
 </head>
 <body>
+<jsp:include page="_header.jsp" />
 <h1>Your answers were submitted. Thank you</h1>
   
  

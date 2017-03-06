@@ -15,11 +15,7 @@
   
 </head>
 <body>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">  
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-  </c:if>  
-  </div>
+<jsp:include page="_header.jsp" />
   <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
     <a href="${pageContext.request.contextPath}/productList">Back to product list</a>  
 </div>
@@ -31,17 +27,17 @@
  
        <table>
            <tr>
-               <td>Bugs *</td>
+               <td>Bugs</td>
                <td><form:textarea path="bugs" /></td>               
            </tr>
  
            <tr>
-               <td>Test Cases *</td>
+               <td>Test Cases</td>
                <td><form:textarea path="test_cases" /></td>               
            </tr>
  
            <tr>
-               <td>Improvements *</td>
+               <td>Improvements</td>
                <td><form:textarea path="improvements" /></td>               
            </tr> 
            <tr>

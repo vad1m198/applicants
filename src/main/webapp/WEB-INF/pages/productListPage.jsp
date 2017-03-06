@@ -5,30 +5,59 @@
 <html>
 <head>
 <title>Product List</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<div class="slds">
+<jsp:include page="_header.jsp" />
 
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">  
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-  </c:if>  
-</div>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
-    <a href="${pageContext.request.contextPath}/shoppingCart">Shopping Cart</a>  
-</div>
+<nav role="navigation" aria-label="Breadcrumbs">
+  <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
+    <li class="slds-breadcrumb__item slds-text-title--caps"> <a href="${pageContext.request.contextPath}/shoppingCart">Shopping Cart</a></li>    
+  </ol>
+</nav>
 
-    <h2>Product List Page</h2>
 
-   <c:forEach items="${products}" var="prodInfo">
-       <div style="border: 1px solid #ccc;padding:5px;margin:5px;">
-           <ul>
-               <li>Code: ${prodInfo.code}</li>
-               <li>Name: ${prodInfo.name}</li>
-               <li>Price: <fmt:formatNumber currencySymbol="$" value="${prodInfo.price}" type="currency"/></li>
-               <li><a href="${pageContext.request.contextPath}/buyProduct?code=${prodInfo.code}">Add to cart</a></li>
-           </ul>
-       </div>
+    <div class="slds-text-heading--medium slds-m-around--medium">Product List Page</div>
  
-   </c:forEach>   
+	<div class="sl-products-container">
+		<c:forEach items="${products}" var="prodInfo">
+			<article class="slds-card slds-m-around--medium">
+			  <div class="slds-card__header">
+			    <header class="slds-has-flexi-truncate">
+			      <div class="slds-media__body">
+			        <h2><span class="slds-text-heading--small slds-truncate">${prodInfo.name}</span></h2>
+			      </div>
+			    </header>
+			  </div>
+			  <div class="slds-card__body">
+			    <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+			      <div class="slds-tile slds-card__tile slds-p-horizontal--small slds-hint-parent">
+			          <div class="slds-tile__detail slds-text-body--small">
+			            <dl class="slds-list--horizontal slds-wrap">
+			              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="First Label">Code:</dt>
+			              <dd class="slds-item--detail slds-truncate">${prodInfo.code}</dd>
+			              <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Second Label">Price:</dt>
+			              <dd class="slds-item--detail slds-truncate"><fmt:formatNumber currencySymbol="$" value="${prodInfo.price}" type="currency"/></dd>
+			            </dl>          
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			    <div class="slds-card__footer">
+			  	<a href="${pageContext.request.contextPath}/buyProduct?code=${prodInfo.code}" class="slds-text-link">Add to cart</a>
+			  </div>
+			</article>
+	   </c:forEach> 
+   </div>
+     
+   </div>
 </body>
 </html>
+
+
+
+
+
+

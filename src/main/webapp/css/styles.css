@@ -1,0 +1,31 @@
+.sl-login-container {
+	width: 320px;
+	margin:auto;
+	margin-top:10%;
+}
+
+.custome-info-container {
+	width: 350px;
+}
+
+.slds-card {
+	width: 350px;
+}
+
+.sl-products-container, 
+.sl-cart-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.quantity {
+    width: 80px
+}
+
+.quantity.error {
+    border: 1px solid red
+}
+
+.error-message {
+    color: red
+}

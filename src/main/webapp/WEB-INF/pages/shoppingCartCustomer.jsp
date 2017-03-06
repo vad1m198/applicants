@@ -9,63 +9,56 @@
 <meta charset="UTF-8">
  
 <title>Enter Customer Information</title>
-<style>
-.error-message {
-    color: red
-}
 
-</style>
-  
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">  
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-  </c:if>  
-  </div>
+<div class="slds">
+<jsp:include page="_header.jsp" />
   <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
     <a href="${pageContext.request.contextPath}/productList">Back to product list</a>  
 </div>
  
 <div class="page-title">Enter Customer Information</div>
- 
-   <form:form method="POST" modelAttribute="customerForm"
-       action="${pageContext.request.contextPath}/shoppingCartCustomer">
- 
-       <table>
-           <tr>
-               <td>Name *</td>
-               <td><form:input path="name" /></td>
-               <td><form:errors path="name" class="error-message" /></td>
-           </tr>
- 
-           <tr>
-               <td>Email *</td>
-               <td><form:input path="email" /></td>
-               <td><form:errors path="email" class="error-message" /></td>
-           </tr>
- 
-           <tr>
-               <td>Phone *</td>
-               <td><form:input path="phone" /></td>
-               <td><form:errors path="phone" class="error-message" /></td>
-           </tr>
- 
-           <tr>
-               <td>Address *</td>
-               <td><form:input path="address" /></td>
-               <td><form:errors path="address" class="error-message" /></td>
-           </tr>
- 
-           <tr>
-               <td>&nbsp;</td>
-               <td><input type="submit" value="Submit" /> <input type="reset"
-                   value="Reset" /></td>
-           </tr>
-       </table>
- 
-   </form:form>
-  
- 
+	<div class="custome-info-container slds-m-around--medium">
+		<form:form class="slds-form--stacked" method="POST" modelAttribute="customerForm"
+       			action="${pageContext.request.contextPath}/shoppingCartCustomer">
+		  <div class="slds-form-element">
+		    <label class="slds-form-element__label" for="name">Name:</label>
+		    <div class="slds-form-element__control">
+		    	<form:input path="name" id="name" class="slds-input" name="name" required="true"/>		      
+		    </div>
+		    <div id="error-message" class="slds-form-element__help"><form:errors path="name" class="error-message" /></div>
+		  </div>
+		  <div class="slds-form-element">
+		    <label class="slds-form-element__label" for="email">Email:</label>
+		    <div class="slds-form-element__control">		      
+		      <form:input path="email"  id="email" class="slds-input" type="email" required="true"/>	
+		    </div>
+		    <div id="error-message" class="slds-form-element__help"><form:errors path="email" class="error-message" /></div>
+		  </div>
+		  <div class="slds-form-element">
+		    <label class="slds-form-element__label" for="phone">Phone:</label>
+		    <div class="slds-form-element__control">		      
+		      <form:input path="phone"  id="phone" class="slds-input" type="text" required="true"/>	
+		    </div>
+		    <div id="error-message" class="slds-form-element__help"><form:errors path="phone" class="error-message" /></div>
+		  </div>
+		  <div class="slds-form-element">
+		    <label class="slds-form-element__label" for="address">Address:</label>
+		    <div class="slds-form-element__control">		      
+		      <form:input path="address" id="address" class="slds-input" type="text" required="true"/>	
+		    </div>
+		    <div id="error-message" class="slds-form-element__help"><form:errors path="address" class="error-message" /></div>
+		  </div>   
+                   
+                 <div class="slds-button-group" role="group">
+				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>
+				  <button type="reset" class="slds-button slds-button--neutral">Reset</button>
+				</div>
+		</form:form>
+		</div>
+ </div>
 </body>
 </html>

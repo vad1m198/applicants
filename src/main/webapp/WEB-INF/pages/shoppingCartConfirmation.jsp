@@ -10,12 +10,7 @@
  
 </head>
 <body>
-<div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">  
-  <c:if test="${pageContext.request.userPrincipal.name != null}">
-     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-     <a href="${pageContext.request.contextPath}/shoppingCartAnswers">Shopping Cart Answers</a>
-  </c:if>  
-  </div>
+<jsp:include page="_header.jsp" />
   <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
     <a href="${pageContext.request.contextPath}/productList">Back to product list</a>  
 </div>
