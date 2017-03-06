@@ -1,7 +1,6 @@
 package org.dynamo.applicantsapp.model;
 
 import org.dynamo.applicantsapp.entity.Product;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class ProductInfo {
     private String code;

@@ -10,8 +10,6 @@ import org.dynamo.applicantsapp.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,10 +29,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if (userInfo == null) {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
-        
-//        System.out.println("UserInfo= " + userInfo);
-//        System.out.println(userInfo.getUserName());
-//        System.out.println(userInfo.getPassword());
         List<GrantedAuthority> grantList= new ArrayList<GrantedAuthority>();
         ShoppingCartAnswerInfo answerInfo = shoppingCartAnswerDAO.findShoppingCartAnswerInfo(Integer.parseInt(userInfo.getId()));
         
@@ -43,7 +37,7 @@ public class MyUserDetailsService implements UserDetailsService {
             grantList.add(authority);
         }
 
-        CustomUser user = new CustomUser(userInfo.getFirstName() + " " + userInfo.getLastName(), //
+        CustomUser user = new CustomUser(userInfo.getFirstName() + " " + userInfo.getLastName(),
                 userInfo.getPassword(),grantList, userInfo.getId());
         return user;
     }

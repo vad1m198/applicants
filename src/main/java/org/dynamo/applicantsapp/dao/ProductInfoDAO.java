@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.dynamo.applicantsapp.entity.Product;
 import org.dynamo.applicantsapp.model.ProductInfo;
-import org.dynamo.applicantsapp.model.UserInfo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,18 +22,19 @@ public class ProductInfoDAO {
  
     }
     
-    public List<ProductInfo> getAllProducts() {    	
-        String sql = "Select new " + ProductInfo.class.getName() + "(p.code, p.name, p.price) "//
+    @SuppressWarnings("unchecked")
+	public List<ProductInfo> getAllProducts() {    	
+        String sql = "Select new " + ProductInfo.class.getName() + "(p.code, p.name, p.price) "
                 + " from " + Product.class.getName() + " p";
  
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery(sql);
-        List<ProductInfo> result = query.list();        
+        List<ProductInfo> result = query.list();
         return result;
     }
 
 	public ProductInfo findProductInfo(String code) {
-        String sql = "Select new " + ProductInfo.class.getName() + "(p.code, p.name, p.price) "//
+        String sql = "Select new " + ProductInfo.class.getName() + "(p.code, p.name, p.price) "
                 + " from " + Product.class.getName() + " p where p.code = :code ";
  
         Session session = sessionFactory.getCurrentSession();
