@@ -5,7 +5,6 @@ import java.util.Properties;
 import javax.sql.DataSource;
  
 import org.apache.commons.dbcp.BasicDataSource;
-import org.dynamo.applicantsapp.dao.UserInfoDAO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

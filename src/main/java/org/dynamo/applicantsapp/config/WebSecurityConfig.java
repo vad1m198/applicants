@@ -36,7 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
         // If no login, it will redirect to /login page.
         http.authorizeRequests().antMatchers("/welcome", "/productList", "/shoppingCartConfirmation", 
-        		"/shoppingCart", "/buyProduct", "/shoppingCartCustomer").access("hasRole('ROLE_APPLICANT')");
+        		"/shoppingCart", "/buyProduct", "/shoppingCartCustomer", "/shoppingCartAnswers").access("hasRole('ROLE_APPLICANT_SHOPPING_CART')");
+        
+        
+        // When the user has logged in as XX.
+        // But access a page that requires role YY,
+        // AccessDeniedException will throw.
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         
         // Config for Login Form
         http.authorizeRequests().and().formLogin()//

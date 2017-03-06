@@ -5,14 +5,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dynamo.applicantsapp.authentication.CustomUser;
 import org.dynamo.applicantsapp.dao.ProductInfoDAO;
-import org.dynamo.applicantsapp.entity.Product;
+import org.dynamo.applicantsapp.dao.ShoppingCartAnswerDAO;
 import org.dynamo.applicantsapp.model.CartInfo;
 import org.dynamo.applicantsapp.model.CustomerInfo;
 import org.dynamo.applicantsapp.model.ProductInfo;
+import org.dynamo.applicantsapp.model.ShoppingCartAnswerInfo;
 import org.dynamo.applicantsapp.util.Utils;
 import org.dynamo.applicantsapp.validator.CustomerInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -32,6 +35,9 @@ public class MainController {
 	
     @Autowired
     private ProductInfoDAO productDAO;
+    
+    @Autowired
+    private ShoppingCartAnswerDAO shoppingCartAnswerDAO;
     
     @Autowired
     private CustomerInfoValidator customerInfoValidator;
@@ -61,6 +67,11 @@ public class MainController {
    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
    public String loginPage(Model model, Principal principal) {	  
        return "loginPage";
+   }
+   
+   @RequestMapping("/403")
+   public String accessDenied() {
+       return "/403";
    }
  
    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -182,4 +193,31 @@ public class MainController {
        }       
        return "shoppingCartConfirmation";
    } 
+   
+   @RequestMapping(value = {"/shoppingCartAnswers"}, method = RequestMethod.GET)
+   public String shoppingCartAnswersGet(HttpServletRequest request, Model model, 
+		   	Authentication authentication) {
+	   CustomUser cu = (CustomUser) authentication.getPrincipal();   		
+	   ShoppingCartAnswerInfo answerInfo = Utils.getAnswersInSession(request);
+	   answerInfo.setApplicant_id(Integer.parseInt(cu.getUserId()));
+	   model.addAttribute("answersForm", answerInfo);
+       return "shoppingCartAnswersPage";
+   }
+   
+   @RequestMapping(value = {"/shoppingCartAnswers"}, method = RequestMethod.POST)
+   public String shoppingCartAnswersPost(HttpServletRequest request, Model model,
+		   @ModelAttribute("answersForm") ShoppingCartAnswerInfo answersForm, Authentication authentication) {
+   		ShoppingCartAnswerInfo answerInfo = Utils.getAnswersInSession(request);
+   		answerInfo.setBugs(answersForm.getBugs());
+	   	answerInfo.setImprovements(answersForm.getImprovements());
+	   	answerInfo.setTest_cases(answersForm.getTest_cases());
+	   		   	
+	   	if("true".equals(request.getParameter("submit"))) {
+	   		shoppingCartAnswerDAO.saveShoppingCartAnswers(answerInfo);	   		
+	   		authentication.setAuthenticated(false);
+	   		return "shoppingCartAnswersSubmitted";
+	   	}
+       return "shoppingCartAnswersPage";
+   }
+   
 }

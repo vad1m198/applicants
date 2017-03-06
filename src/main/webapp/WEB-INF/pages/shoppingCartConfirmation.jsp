@@ -13,6 +13,7 @@
 <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">  
   <c:if test="${pageContext.request.userPrincipal.name != null}">
      <a href="${pageContext.request.contextPath}/logout">Logout</a>
+     <a href="${pageContext.request.contextPath}/shoppingCartAnswers">Shopping Cart Answers</a>
   </c:if>  
   </div>
   <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">

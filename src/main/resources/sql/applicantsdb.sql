@@ -43,3 +43,14 @@ VALUES ('Ivan', 'Ivanov', 'test@example.com', 'qwerty');
     
     insert into products (code, name, price)
 	values ('P002', 'Samsung S7', 99);
+	
+	
+	
+create table shopping_cart_answers(
+   id  serial primary key,
+   bugs text,
+   test_cases text,
+   improvements text,
+   created_date timestamp NOT NULL default now(),
+    applicant_id INT references users(id)
+);

@@ -2,6 +2,7 @@ package org.dynamo.applicantsapp.model;
 
 public class UserInfo {
  
+	private String id;
    private String userName;
    private String password;
     private String firstName;
@@ -15,13 +16,15 @@ public class UserInfo {
    public UserInfo(String userName, String password) {
        this.userName = userName;
        this.password = password;
+       
    }
 
-    public UserInfo(String userName, String password, String firstName, String lastName) {
+    public UserInfo(String userName, String password, String firstName, String lastName, String id) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.id = id;
     }
  
    public String getUserName() {
@@ -55,4 +58,12 @@ public class UserInfo {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+	public String getId() {
+		return this.id;
+	}
+	
+	public String setId(String id) {
+		return this.id = id;
+	}
 }
