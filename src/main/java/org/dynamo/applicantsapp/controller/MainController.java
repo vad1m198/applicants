@@ -8,18 +8,23 @@ import javax.servlet.http.HttpServletRequest;
 import org.dynamo.applicantsapp.dao.ProductInfoDAO;
 import org.dynamo.applicantsapp.entity.Product;
 import org.dynamo.applicantsapp.model.CartInfo;
-import org.dynamo.applicantsapp.model.CartLineInfo;
+import org.dynamo.applicantsapp.model.CustomerInfo;
 import org.dynamo.applicantsapp.model.ProductInfo;
 import org.dynamo.applicantsapp.util.Utils;
+import org.dynamo.applicantsapp.validator.CustomerInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  
 @Controller
 @Transactional
@@ -27,6 +32,31 @@ public class MainController {
 	
     @Autowired
     private ProductInfoDAO productDAO;
+    
+    @Autowired
+    private CustomerInfoValidator customerInfoValidator;
+    
+    @InitBinder
+    public void myInitBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if (target == null) {
+            return;
+        }
+        System.out.println("Target=" + target);
+ 
+        // For Cart Form.
+        // (@ModelAttribute("cartForm") @Validated CartInfo cartForm)
+        if (target.getClass() == CartInfo.class) {
+ 
+        }
+        // For Customer Form.
+        // (@ModelAttribute("customerForm") @Validated CustomerInfo
+        // customerForm)
+        else if (target.getClass() == CustomerInfo.class) {
+            dataBinder.setValidator(customerInfoValidator);
+        }
+ 
+    }
   
    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
    public String loginPage(Model model, Principal principal) {	  
@@ -43,6 +73,7 @@ public class MainController {
    
    @RequestMapping(value = "/productList", method = RequestMethod.GET)
    public String productList(Model model) {
+	   	   
 	   List<ProductInfo> products = productDAO.getAllProducts();	   
 	   model.addAttribute("products", products);
 	   return "productListPage";	    
@@ -85,8 +116,70 @@ public class MainController {
            @ModelAttribute("cart") CartInfo cartForm) {
        CartInfo cartInfo = Utils.getCartInSession(request);       
        cartInfo.updateQuantity(cartForm);
-
        // Redirect to shoppingCart page.
        return "redirect:/shoppingCart";
    }
+   
+   // GET: Enter customer information.
+   @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.GET)
+   public String shoppingCartCustomerForm(HttpServletRequest request, Model model) {
+
+       CartInfo cartInfo = Utils.getCartInSession(request);
+     
+       // Cart is empty.
+       if (cartInfo.isEmpty()) {
+            
+           // Redirect to shoppingCart page.
+           return "redirect:/shoppingCart";
+       }
+
+       CustomerInfo customerInfo = cartInfo.getCustomerInfo();
+       if (customerInfo == null) {
+           customerInfo = new CustomerInfo();
+       }
+
+       model.addAttribute("customerForm", customerInfo);
+
+       return "shoppingCartCustomer";
+   }
+
+   // POST: Save customer information.
+   @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.POST)
+   public String shoppingCartCustomerSave(HttpServletRequest request, //
+           Model model, //
+           @ModelAttribute("customerForm") @Validated CustomerInfo customerForm, //
+           BindingResult result, //
+           final RedirectAttributes redirectAttributes) {
+ 
+       // If has Errors.
+       if (result.hasErrors()) {
+           customerForm.setValid(false);
+           // Forward to reenter customer info.
+           return "shoppingCartCustomer";
+       }
+
+       customerForm.setValid(true);
+       CartInfo cartInfo = Utils.getCartInSession(request);
+
+       cartInfo.setCustomerInfo(customerForm);
+
+       // Redirect to Confirmation page.
+       return "redirect:/shoppingCartConfirmation";
+   }
+   
+   // GET: Review Cart to confirm.
+   @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
+   public String shoppingCartConfirmationReview(HttpServletRequest request, Model model) {
+       CartInfo cartInfo = Utils.getCartInSession(request);
+
+       // Cart have no products.
+       if (cartInfo.isEmpty()) {
+           // Redirect to shoppingCart page.
+           return "redirect:/shoppingCartPage";
+       } else if (!cartInfo.isValidCustomer()) {
+           // Enter customer info.
+           return "redirect:/shoppingCartCustomer";
+       }       
+       return "shoppingCartConfirmation";
+   } 
 }

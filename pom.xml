@@ -119,6 +119,14 @@
             <artifactId>hibernate-c3p0</artifactId>
             <version>4.3.8.Final</version>
         </dependency>
+        
+        <!-- Email validator,... -->
+        <!-- http://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.5.0</version>
+        </dependency>
  
         <!-- Commons DataSources -->
         <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
@@ -127,7 +135,6 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
-        
  
         <!-- Postgresql JDBC driver -->
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->

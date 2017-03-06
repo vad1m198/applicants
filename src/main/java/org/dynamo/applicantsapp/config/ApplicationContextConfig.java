@@ -33,6 +33,15 @@ public class ApplicationContextConfig {
  
 //    @Autowired
 //    private UserInfoDAO userInfoDAO;
+    
+    
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource rb = new ResourceBundleMessageSource();
+        // Load property in message/validator.properties
+        rb.setBasenames(new String[] { "messages/validator" });
+        return rb;
+    }
  
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {

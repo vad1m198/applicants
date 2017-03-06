@@ -47,13 +47,14 @@
 		               <li>Price: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.productInfo.price}" type="currency"/></li>
 		               <li>Quantity:<form:input path="cartLines[${varStatus.index}].quantity" class="quantity" onchange="validateInput(this)" data-val="true"/>
 		               	</li>
-		               <li>Amount: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.amount}" type="currency"/></li>
+		               <li>Amount: <fmt:formatNumber  currencySymbol="$" value="${cartLineInfo.amount}" type="currency"/></li>		               
 		           </ul>
 		       </div>
 		   </c:forEach>
 		   <div style="clear: both"></div>
 	       <input id="updateQuantity" type="submit" value="Update Quantity" />
 	   </form:form> 
+	   <a href="${pageContext.request.contextPath}/shoppingCartCustomer">Place Order</a>  
    </c:if>  
 </body>
   <script type="text/javascript">  
@@ -61,7 +62,7 @@
       function validateInput(elem) {
           var value = elem.value.trim();
           if(isNaN(value) || parseInt(value) != value || !Number.isSafeInteger(parseInt(value))
-              || parseInt(value) <= 0) {
+              || parseInt(value) < 0) {
     		  elem.dataset.val = false;   
     		  elem.classList.add("error");
     	  } else {
