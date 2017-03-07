@@ -6,14 +6,13 @@
 <meta charset="UTF-8">
  
 <title>Shopping Cart Answers Submitted</title>
-<style>
-
-</style>
-  
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
 </head>
 <body>
-<jsp:include page="_header.jsp" />
-<h1>Your answers were submitted. Thank you</h1>
+<div class="slds">
+    <div class="slds-text-heading--medium slds-m-around--small">Your answers were submitted. Thank you!</div>
+</div>
+
   
  
 </body>

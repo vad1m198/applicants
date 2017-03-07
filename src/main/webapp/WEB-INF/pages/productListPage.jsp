@@ -32,7 +32,7 @@
 			    </header>
 			  </div>
 			  <div class="slds-card__body">
-			    <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+			    <div class="slds-card__body--inner slds-wrap">
 			      <div class="slds-tile slds-card__tile slds-p-horizontal--small slds-hint-parent">
 			          <div class="slds-tile__detail slds-text-body--small">
 			            <dl class="slds-list--horizontal slds-wrap">

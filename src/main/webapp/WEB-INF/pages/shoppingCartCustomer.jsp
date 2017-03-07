@@ -16,11 +16,14 @@
 <body>
 <div class="slds">
 <jsp:include page="_header.jsp" />
-  <div style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
-    <a href="${pageContext.request.contextPath}/productList">Back to product list</a>  
-</div>
- 
-<div class="page-title">Enter Customer Information</div>
+	<nav role="navigation" aria-label="Breadcrumbs">
+		<ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
+			<li class="slds-breadcrumb__item slds-text-title--caps">
+				<a href="${pageContext.request.contextPath}/productList">Back to product list</a>
+			</li>
+		</ol>
+	</nav>
+	<div class="slds-text-heading--medium slds-m-around--medium">Enter Customer Information</div>
 	<div class="custome-info-container slds-m-around--medium">
 		<form:form class="slds-form--stacked" method="POST" modelAttribute="customerForm"
        			action="${pageContext.request.contextPath}/shoppingCartCustomer">

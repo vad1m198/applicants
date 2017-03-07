@@ -9,7 +9,7 @@
 }
 
 .slds-card {
-	width: 350px;
+	width: 300px;
 }
 
 .sl-products-container, 
@@ -28,4 +28,8 @@
 
 .error-message {
     color: red
+}
+
+.sl-summary {
+	width: 50%
 }

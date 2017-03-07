@@ -29,7 +29,7 @@
 		  <div class="slds-form-element">
 		    <label class="slds-form-element__label" for="password">Password:</label>
 		    <div class="slds-form-element__control">
-		      <input type='password' name='password' class="slds-input" required/>
+		      <input type='password' name='password' id="password" class="slds-input" required/>
 		    </div>
 		  </div>
 		  <div class="slds-form-element">

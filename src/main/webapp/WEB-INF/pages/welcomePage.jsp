@@ -4,11 +4,11 @@
 <html>
 <head>
 <title>User Info</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
-<body>
-	
-    <h2>Welcome Page</h2>
-    <h3>Welcome : ${pageContext.request.userPrincipal.name}</h3>
-    <a href="${pageContext.request.contextPath}/productList">Continue</a>
+<body class="slds-m-around--medium">
+    <div class="slds-text-heading--medium slds-m-around--small">Welcome : ${pageContext.request.userPrincipal.name}</div>
+    <a class="slds-button slds-button--brand" href="${pageContext.request.contextPath}/productList">Continue</a>
 </body>
 </html>
