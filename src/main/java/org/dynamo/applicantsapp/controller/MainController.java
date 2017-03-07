@@ -218,6 +218,5 @@ public class MainController {
 	   		return "shoppingCartAnswersSubmitted";
 	   	}
        return "shoppingCartAnswersPage";
-   }
-   
+   }   
 }
