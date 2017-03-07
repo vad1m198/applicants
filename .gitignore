@@ -5,3 +5,4 @@ target
 .project
 *iml
 src/main/resources/datasource-cfg.properties
+src/main/resources/mail-cfg.properties

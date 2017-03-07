@@ -11,8 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -22,7 +25,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("org.dynamo.applicantsapp.*")
 @EnableTransactionManagement
 // Load to Environment.
-@PropertySource("classpath:datasource-cfg.properties")
+//@PropertySource("classpath:datasource-cfg.properties")
+@PropertySources({
+    @PropertySource("classpath:datasource-cfg.properties"),
+    @PropertySource("classpath:mail-cfg.properties")
+})
 public class ApplicationContextConfig {
  
     // The Environment class serves as the property holder
@@ -63,6 +70,25 @@ public class ApplicationContextConfig {
         System.out.println("## getDataSource: " + dataSource);
  
         return dataSource;
+    }
+    
+    @Bean
+    public JavaMailSender getMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        
+	    mailSender.setHost(env.getProperty("mc.host"));
+	    mailSender.setPort(Integer.parseInt(env.getProperty("mc.port")));
+	    mailSender.setUsername(env.getProperty("mc.username"));
+	    mailSender.setPassword(env.getProperty("mc.password"));
+         
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.transport.protocol", "smtp");
+        javaMailProperties.put("mail.debug", "true");//Prints out everything on screen
+         
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
     }
  
     @Autowired

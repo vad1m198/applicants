@@ -12,6 +12,7 @@ import org.dynamo.applicantsapp.model.CartInfo;
 import org.dynamo.applicantsapp.model.CustomerInfo;
 import org.dynamo.applicantsapp.model.ProductInfo;
 import org.dynamo.applicantsapp.model.ShoppingCartAnswerInfo;
+import org.dynamo.applicantsapp.service.MailServiceImpl;
 import org.dynamo.applicantsapp.util.Utils;
 import org.dynamo.applicantsapp.validator.CustomerInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class MainController {
     
     @Autowired
     private CustomerInfoValidator customerInfoValidator;
+        
+    @Autowired
+    MailServiceImpl mailService;
     
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
@@ -215,6 +219,8 @@ public class MainController {
 	   	if("true".equals(request.getParameter("submit"))) {
 	   		shoppingCartAnswerDAO.saveShoppingCartAnswers(answerInfo);	   		
 	   		authentication.setAuthenticated(false);
+	        mailService.sendEmail(answerInfo, authentication.getName());
+	   		
 	   		return "shoppingCartAnswersSubmitted";
 	   	}
        return "shoppingCartAnswersPage";

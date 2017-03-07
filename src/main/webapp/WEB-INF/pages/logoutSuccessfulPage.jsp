@@ -2,7 +2,6 @@
 <head>
 <title>Logout</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/salesforce-lightning-design-system.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body class="slds-m-around--medium">
     <nav role="navigation" aria-label="Breadcrumbs">
