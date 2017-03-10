@@ -42,7 +42,7 @@
         <a href="${pageContext.request.contextPath}/logout" class="slds-context-bar__label-action">Logout</a>
       </li>
       <li class="slds-context-bar__item">
-      <a href="${pageContext.request.contextPath}/shoppingCartAnswers" class="slds-context-bar__label-action">Shopping Cart Answers</a>        
+      <a href="${pageContext.request.contextPath}/shopping-cart/shoppingCartAnswers" class="slds-context-bar__label-action">Shopping Cart Answers</a>        
       </li>
     </ul>
   </nav>

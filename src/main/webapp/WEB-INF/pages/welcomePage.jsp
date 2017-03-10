@@ -9,6 +9,6 @@
 </head>
 <body class="slds-m-around--medium">
     <div class="slds-text-heading--medium slds-m-around--small">Welcome : ${pageContext.request.userPrincipal.name}</div>
-    <a class="slds-button slds-button--brand" href="${pageContext.request.contextPath}/productList">Continue</a>
+    <a class="slds-button slds-button--brand" href="${pageContext.request.contextPath}/shopping-cart/productList">Continue</a>
 </body>
 </html>

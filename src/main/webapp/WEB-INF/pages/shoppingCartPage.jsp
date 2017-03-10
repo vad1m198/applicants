@@ -15,7 +15,7 @@
 	<jsp:include page="_header.jsp" />	
 	<nav role="navigation" aria-label="Breadcrumbs">
 	  <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
-	    <li class="slds-breadcrumb__item slds-text-title--caps"><a href="${pageContext.request.contextPath}/productList">Back to product list</a></li>    
+	    <li class="slds-breadcrumb__item slds-text-title--caps"><a href="${pageContext.request.contextPath}/shopping-cart/productList">Back to product list</a></li>    
 	  </ol>
 	</nav>
 
@@ -25,7 +25,7 @@
        <div class="slds-text-heading--small slds-m-around--medium">There is no items in Cart</div>   
    </c:if> 
    <c:if test="${not empty cartForm and not empty cartForm.cartLines}">
-	   <form:form method="POST" modelAttribute="cartForm" action="${pageContext.request.contextPath}/shoppingCart">
+	   <form:form method="POST" modelAttribute="cartForm" action="${pageContext.request.contextPath}/shopping-cart/shoppingCart">
 		   <div class="sl-cart-container">
 			   <c:forEach items="${cartForm.cartLines}" var="cartLineInfo" varStatus="varStatus">
 			   
@@ -61,7 +61,7 @@
 		   </div>		   
 			<div class="slds-button-group slds-m-left--medium" role="group">
 			  <button class="slds-button slds-button--neutral" id="updateQuantity" type="submit" value="Update Quantity">Update Quantity</button>			  
-			  <a class="slds-button slds-button--neutral" href="${pageContext.request.contextPath}/shoppingCartCustomer">Place Order</a>  
+			  <a class="slds-button slds-button--neutral" href="${pageContext.request.contextPath}/shopping-cart/shoppingCartCustomer">Place Order</a>  
 			</div>	       
 	   </form:form> 
 	   

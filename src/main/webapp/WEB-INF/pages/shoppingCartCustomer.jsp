@@ -19,14 +19,14 @@
 	<nav role="navigation" aria-label="Breadcrumbs">
 		<ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
 			<li class="slds-breadcrumb__item slds-text-title--caps">
-				<a href="${pageContext.request.contextPath}/productList">Back to product list</a>
+				<a href="${pageContext.request.contextPath}/shopping-cart/productList">Back to product list</a>
 			</li>
 		</ol>
 	</nav>
 	<div class="slds-text-heading--medium slds-m-around--medium">Enter Customer Information</div>
 	<div class="custome-info-container slds-m-around--medium">
 		<form:form class="slds-form--stacked" method="POST" modelAttribute="customerForm"
-       			action="${pageContext.request.contextPath}/shoppingCartCustomer">
+       			action="${pageContext.request.contextPath}/shopping-cart/shoppingCartCustomer">
 		  <div class="slds-form-element">
 		    <label class="slds-form-element__label" for="name">Name:</label>
 		    <div class="slds-form-element__control">

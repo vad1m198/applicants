@@ -14,7 +14,7 @@
 
 <nav role="navigation" aria-label="Breadcrumbs">
   <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
-    <li class="slds-breadcrumb__item slds-text-title--caps"> <a href="${pageContext.request.contextPath}/shoppingCart">Shopping Cart</a></li>    
+    <li class="slds-breadcrumb__item slds-text-title--caps"> <a href="${pageContext.request.contextPath}/shopping-cart/shoppingCart">Shopping Cart</a></li>    
   </ol>
 </nav>
 
@@ -46,7 +46,7 @@
 			    </div>
 			  </div>
 			    <div class="slds-card__footer">
-			  	<a href="${pageContext.request.contextPath}/buyProduct?code=${prodInfo.code}" class="slds-text-link">Add to cart</a>
+			  	<a href="${pageContext.request.contextPath}/shopping-cart/buyProduct?code=${prodInfo.code}" class="slds-text-link">Add to cart</a>
 			  </div>
 			</article>
 	   </c:forEach> 

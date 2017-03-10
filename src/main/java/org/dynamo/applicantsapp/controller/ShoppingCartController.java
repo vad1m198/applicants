@@ -65,14 +65,14 @@ public class ShoppingCartController {
  
     }
    
-   @RequestMapping(value = "/productList", method = RequestMethod.GET)
+   @RequestMapping(value = "/shopping-cart/productList", method = RequestMethod.GET)
    public String productList(Model model) {
 	   List<Product> products = productService.getAllProducts();
 	   model.addAttribute("products", products);
 	   return "productListPage";	    
    }
    
-   @RequestMapping({ "/buyProduct" })
+   @RequestMapping({ "/shopping-cart/buyProduct" })
    public String listProductHandler(HttpServletRequest request, Model model, //
            @RequestParam(value = "code", defaultValue = "") String code) {
 
@@ -87,11 +87,11 @@ public class ShoppingCartController {
            cartInfo.addProduct(product, 1);
        }
        // Redirect to shoppingCart page.
-       return "redirect:/shoppingCart";
+       return "redirect:/shopping-cart/shoppingCart";
    }
    
    // GET: Show Cart
-   @RequestMapping(value = { "/shoppingCart" }, method = RequestMethod.GET)
+   @RequestMapping(value = { "/shopping-cart/shoppingCart" }, method = RequestMethod.GET)
    public String shoppingCartHandler(HttpServletRequest request, Model model) {
        CartInfo myCart = Utils.getCartInSession(request);
 
@@ -99,18 +99,18 @@ public class ShoppingCartController {
        return "shoppingCartPage";
    }
    
-   @RequestMapping(value = { "/shoppingCart" }, method = RequestMethod.POST)
+   @RequestMapping(value = { "/shopping-cart/shoppingCart" }, method = RequestMethod.POST)
    public String shoppingCartUpdateQty(HttpServletRequest request, //
            Model model, //
            @ModelAttribute("cart") CartInfo cartForm) {
        CartInfo cartInfo = Utils.getCartInSession(request);       
        cartInfo.updateQuantity(cartForm);
        // Redirect to shoppingCart page.
-       return "redirect:/shoppingCart";
+       return "redirect:/shopping-cart/shoppingCart";
    }
    
    // GET: Enter customer information.
-   @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.GET)
+   @RequestMapping(value = { "/shopping-cart/shoppingCartCustomer" }, method = RequestMethod.GET)
    public String shoppingCartCustomerForm(HttpServletRequest request, Model model) {
 
        CartInfo cartInfo = Utils.getCartInSession(request);
@@ -119,7 +119,7 @@ public class ShoppingCartController {
        if (cartInfo.isEmpty()) {
             
            // Redirect to shoppingCart page.
-           return "redirect:/shoppingCart";
+           return "redirect:/shopping-cart/shoppingCart";
        }
 
        CustomerInfo customerInfo = cartInfo.getCustomerInfo();
@@ -133,7 +133,7 @@ public class ShoppingCartController {
    }
 
    // POST: Save customer information.
-   @RequestMapping(value = { "/shoppingCartCustomer" }, method = RequestMethod.POST)
+   @RequestMapping(value = { "/shopping-cart/shoppingCartCustomer" }, method = RequestMethod.POST)
    public String shoppingCartCustomerSave(HttpServletRequest request, //
            Model model, //
            @ModelAttribute("customerForm") @Validated CustomerInfo customerForm, //
@@ -153,11 +153,11 @@ public class ShoppingCartController {
        cartInfo.setCustomerInfo(customerForm);
 
        // Redirect to Confirmation page.
-       return "redirect:/shoppingCartConfirmation";
+       return "redirect:/shopping-cart/shoppingCartConfirmation";
    }
    
    // GET: Review Cart to confirm.
-   @RequestMapping(value = { "/shoppingCartConfirmation" }, method = RequestMethod.GET)
+   @RequestMapping(value = { "/shopping-cart/shoppingCartConfirmation" }, method = RequestMethod.GET)
    public String shoppingCartConfirmationReview(HttpServletRequest request, Model model) {
        CartInfo cartInfo = Utils.getCartInSession(request);
 
@@ -167,12 +167,12 @@ public class ShoppingCartController {
            return "redirect:/shoppingCartPage";
        } else if (!cartInfo.isValidCustomer()) {
            // Enter customer info.
-           return "redirect:/shoppingCartCustomer";
+           return "redirect:/shopping-cart/shoppingCartCustomer";
        }       
        return "shoppingCartConfirmation";
    } 
    
-   @RequestMapping(value = {"/shoppingCartAnswers"}, method = RequestMethod.GET)
+   @RequestMapping(value = {"/shopping-cart/shoppingCartAnswers"}, method = RequestMethod.GET)
    public String shoppingCartAnswersGet(HttpServletRequest request, Model model, 
 		   	Authentication authentication) {
 	   CustomUser cu = (CustomUser) authentication.getPrincipal();   		
@@ -182,7 +182,7 @@ public class ShoppingCartController {
        return "shoppingCartAnswersPage";
    }
    
-   @RequestMapping(value = {"/shoppingCartAnswers"}, method = RequestMethod.POST)
+   @RequestMapping(value = {"/shopping-cart/shoppingCartAnswers"}, method = RequestMethod.POST)
    public String shoppingCartAnswersPost(HttpServletRequest request, Model model,
 		   @ModelAttribute("answersForm") ShoppingCartAnswer answersForm, Authentication authentication) {
    		ShoppingCartAnswer answerInfo = Utils.getAnswersInSession(request);

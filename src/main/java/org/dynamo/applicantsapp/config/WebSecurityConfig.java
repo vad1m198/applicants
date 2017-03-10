@@ -35,8 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/", "/login").permitAll();
  
         // If no login, it will redirect to /login page.
-        http.authorizeRequests().antMatchers("/welcome", "/productList", "/shoppingCartConfirmation", 
-        		"/shoppingCart", "/buyProduct", "/shoppingCartCustomer", "/shoppingCartAnswers").access("hasRole('ROLE_SHOPPING_CART_USER')");
+//        http.authorizeRequests().antMatchers("/welcome", "/productList", "/shoppingCartConfirmation", 
+//        		"/shoppingCart", "/buyProduct", "/shoppingCartCustomer", "/shoppingCartAnswers").access("hasRole('ROLE_SHOPPING_CART_USER')");
+        
+        http.authorizeRequests().antMatchers("/shopping-cart/*").access("hasRole('ROLE_SHOPPING_CART_USER')");
+        
+        
         
         
         // When the user has logged in as XX.

@@ -16,7 +16,7 @@
 <nav role="navigation" aria-label="Breadcrumbs">
     <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
         <li class="slds-breadcrumb__item slds-text-title--caps">
-            <a href="${pageContext.request.contextPath}/productList">Back to product list</a>
+            <a href="${pageContext.request.contextPath}/shopping-cart/productList">Back to product list</a>
         </li>
     </ol>
 </nav>
