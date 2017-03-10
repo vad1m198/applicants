@@ -25,6 +25,9 @@ public class MainController {
    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
    public String userInfo(HttpServletRequest request, Model model, Principal principal) {	   
        // After user login successfully.
+	   if(principal == null) {
+		   return "redirect:/login";
+	   }
        String userName = principal.getName();
        System.out.println("User Name: "+ userName);
        return "welcomePage";
