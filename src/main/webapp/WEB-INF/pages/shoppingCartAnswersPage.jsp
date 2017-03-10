@@ -37,7 +37,7 @@
         <div class="slds-form-element">
             <label class="slds-form-element__label" for="test-cases-area">Test Cases</label>
             <div class="slds-form-element__control">
-                <form:textarea rows="5" id="test-cases-area" class="slds-textarea" path="test_cases" />
+                <form:textarea rows="5" id="test-cases-area" class="slds-textarea" path="testCases" />
             </div>
         </div>
         <div class="slds-form-element">

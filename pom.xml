@@ -10,11 +10,12 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>AplicantsApp Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  
- 
-  
+
     <properties>
         <java-version>1.8</java-version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
  
     <dependencies>
@@ -157,6 +158,13 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4</version>
 		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.6.4.RELEASE</version>
+        </dependency>
  
     </dependencies>
  
@@ -167,19 +175,40 @@
         
             <!-- Config: Maven Tomcat Plugin -->
             <!-- http://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat7-maven-plugin -->
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.2</version-->
                 <!-- Config: contextPath and Port (Default - /AplicantsApp : 8080) -->
                 
-                <configuration>
+                <!--configuration>
                     <path>/</path>
-                    <port>8082</port>
+                    <port>8082</port-->
                     <!-- contextReloadable>true</contextReloadable -->
-                </configuration>
+                <!--/configuration-->
                   
-            </plugin>
+            <!--/plugin-->
+			<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.3</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals><goal>copy</goal></goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>com.github.jsimone</groupId>
+                                <artifactId>webapp-runner</artifactId>
+                                <version>8.5.11.2</version>
+                                <destFileName>webapp-runner.jar</destFileName>
+                            </artifactItem>
+                        </artifactItems>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
         </plugins>
     </build>   
     

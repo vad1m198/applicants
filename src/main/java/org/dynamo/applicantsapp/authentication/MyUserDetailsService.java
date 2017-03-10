@@ -2,44 +2,56 @@ package org.dynamo.applicantsapp.authentication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.dynamo.applicantsapp.dao.ShoppingCartAnswerDAO;
-import org.dynamo.applicantsapp.dao.UserInfoDAO;
-import org.dynamo.applicantsapp.model.ShoppingCartAnswerInfo;
-import org.dynamo.applicantsapp.model.UserInfo;
+import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
+import org.dynamo.applicantsapp.entity.User;
+import org.dynamo.applicantsapp.entity.UserRole;
+import org.dynamo.applicantsapp.repos.ShoppingCartAnswerRepository;
+import org.dynamo.applicantsapp.repos.UsercRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
- 
+
+
 @Service
 public class MyUserDetailsService implements UserDetailsService {
- 
+
     @Autowired
-    private UserInfoDAO userInfoDAO;
-    
+    private UsercRepository usercRepository;
+
     @Autowired
-    private ShoppingCartAnswerDAO shoppingCartAnswerDAO;
+    private ShoppingCartAnswerRepository shoppingCartAnswerRepository;
 
     public CustomUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserInfo userInfo = userInfoDAO.findUserInfo(username);        
-        
-        if (userInfo == null) {
+        List<User> users = usercRepository.findByEmail(username);
+
+        if (users.size() == 0) {
             throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
+
+        User user = users.get(0);
+
         List<GrantedAuthority> grantList= new ArrayList<GrantedAuthority>();
-        ShoppingCartAnswerInfo answerInfo = shoppingCartAnswerDAO.findShoppingCartAnswerInfo(Integer.parseInt(userInfo.getId()));
-        
-        if(answerInfo == null) {
-        	GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_APPLICANT_SHOPPING_CART");
+        for(UserRole role: user.getRoles()) {
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getRole());
             grantList.add(authority);
         }
 
-        CustomUser user = new CustomUser(userInfo.getFirstName() + " " + userInfo.getLastName(),
-                userInfo.getPassword(),grantList, userInfo.getId());
-        return user;
+        List<ShoppingCartAnswer> answers = shoppingCartAnswerRepository.findByApplicantId(user.getId());
+
+        if(answers.size() > 0) {
+            grantList = grantList.stream()
+                    .filter(authority ->  !authority.getAuthority().equals("ROLE_SHOPPING_CART_USER"))
+                    .collect(Collectors.toList());
+        }
+
+        CustomUser customUser = new CustomUser(user.getFirst_name() + " " + user.getLast_name(),
+                user.getPassword(),grantList, user.getId());
+        return customUser;
     }
      
 }

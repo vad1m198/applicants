@@ -3,6 +3,8 @@ package org.dynamo.applicantsapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dynamo.applicantsapp.entity.Product;
+
 public class CartInfo {
 	 
     private int orderNum;
@@ -37,20 +39,21 @@ public class CartInfo {
  
     private CartLineInfo findLineByCode(String code) {
         for (CartLineInfo line : this.cartLines) {
-            if (line.getProductInfo().getCode().equals(code)) {
+            if (line.getProduct().getCode().equals(code)) {
                 return line;
             }
         }
         return null;
     }
  
-    public void addProduct(ProductInfo productInfo, int quantity) {
-        CartLineInfo line = this.findLineByCode(productInfo.getCode());
+    public void addProduct(Product product, int quantity) {
+        CartLineInfo line = this.findLineByCode(product.getCode());
  
         if (line == null) {
             line = new CartLineInfo();
             line.setQuantity(0);
-            line.setProductInfo(productInfo);
+            //line.setProductInfo(productInfo);
+            line.setProduct(product);
             this.cartLines.add(line);
         }
         int newQuantity = line.getQuantity() + quantity;
@@ -77,7 +80,7 @@ public class CartInfo {
         }
     }
  
-    public void removeProduct(ProductInfo productInfo) {
+    public void removeProduct(Product productInfo) {
         CartLineInfo line = this.findLineByCode(productInfo.getCode());
         if (line != null) {
             this.cartLines.remove(line);
@@ -112,7 +115,7 @@ public class CartInfo {
         if (cartForm != null) {
             List<CartLineInfo> lines = cartForm.getCartLines();            
             for (CartLineInfo line : lines) {            	
-                this.updateProduct(line.getProductInfo().getCode(), line.getQuantity());
+                this.updateProduct(line.getProduct().getCode(), line.getQuantity());
             }
         }
     }

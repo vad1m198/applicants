@@ -8,29 +8,20 @@ import org.springframework.security.core.userdetails.User;
 public class CustomUser extends User {
 
 	private static final long serialVersionUID = -6529974982202228122L;
-	private String userId; 
+	private int userId;
 
-	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities, String userId) {
+	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities, int userId) {
 		super(username, password, authorities);
 		// TODO Auto-generated constructor stub
 		this.setUserId(userId);
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
-	}
-
-//	public CustomUser(String username, String password, boolean enabled, boolean accountNonExpired,
-//			boolean credentialsNonExpired, boolean accountNonLocked,
-//			Collection<? extends GrantedAuthority> authorities) {
-//		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-//		// TODO Auto-generated constructor stub
-//	}
-	
-	
+	}	
 
 }

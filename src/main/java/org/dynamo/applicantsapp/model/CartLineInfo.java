@@ -1,20 +1,14 @@
 package org.dynamo.applicantsapp.model;
 
+import org.dynamo.applicantsapp.entity.Product;
+
 public class CartLineInfo {
- 
-    private ProductInfo productInfo;
+
+    private Product product;
     private int quantity;
  
     public CartLineInfo() {
         this.quantity = 0;
-    }
- 
-    public ProductInfo getProductInfo() {
-        return productInfo;
-    }
- 
-    public void setProductInfo(ProductInfo productInfo) {
-        this.productInfo = productInfo;
     }
  
     public int getQuantity() {
@@ -26,7 +20,14 @@ public class CartLineInfo {
     }
  
     public double getAmount() {
-        return this.productInfo.getPrice() * this.quantity;
+        return this.product.getPrice() * this.quantity;
     }
-    
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
 }

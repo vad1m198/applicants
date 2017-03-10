@@ -2,8 +2,8 @@ package org.dynamo.applicantsapp.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
 import org.dynamo.applicantsapp.model.CartInfo;
-import org.dynamo.applicantsapp.model.ShoppingCartAnswerInfo;
 
 public class Utils {
  
@@ -28,10 +28,10 @@ public class Utils {
         request.getSession().removeAttribute("myCart");
     }
 
-	public static ShoppingCartAnswerInfo getAnswersInSession(HttpServletRequest request) {
-		ShoppingCartAnswerInfo answerInfo = (ShoppingCartAnswerInfo) request.getSession().getAttribute("shoppingCartAnswers");        
+	public static ShoppingCartAnswer getAnswersInSession(HttpServletRequest request) {
+		ShoppingCartAnswer answerInfo = (ShoppingCartAnswer) request.getSession().getAttribute("shoppingCartAnswers");
         if (answerInfo == null) {
-        	answerInfo = new ShoppingCartAnswerInfo(); 
+        	answerInfo = new ShoppingCartAnswer();
             request.getSession().setAttribute("shoppingCartAnswers", answerInfo);
         }
  

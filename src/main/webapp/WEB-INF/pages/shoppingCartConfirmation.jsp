@@ -57,7 +57,7 @@
             <div class="slds-card__header">
                 <header class="slds-has-flexi-truncate">
                     <div class="slds-media__body">
-                        <h2><span class="slds-text-heading--small slds-truncate">${cartLineInfo.productInfo.name}</span></h2>
+                        <h2><span class="slds-text-heading--small slds-truncate">${cartLineInfo.product.name}</span></h2>
                     </div>
                 </header>
             </div>
@@ -67,11 +67,11 @@
                         <div class="slds-tile__detail slds-text-body--small">
                             <dl class="slds-list--horizontal slds-wrap">
                                 <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Code">Code:</dt>
-                                <dd class="slds-item--detail slds-truncate">${cartLineInfo.productInfo.code} <input
-                                        type="hidden" name="code" value="${cartLineInfo.productInfo.code}" /></dd>
+                                <dd class="slds-item--detail slds-truncate">${cartLineInfo.product.code} <input
+                                        type="hidden" name="code" value="${cartLineInfo.product.code}" /></dd>
                                 <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Price">Price:</dt>
                                 <dd class="slds-item--detail slds-truncate">
-                                    <fmt:formatNumber value="${cartLineInfo.productInfo.price}" type="currency"/></dd>
+                                    <fmt:formatNumber value="${cartLineInfo.product.price}" type="currency"/></dd>
                                 <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Quantity">Quantity:</dt>
                                 <dd class="slds-item--detail slds-truncate">${cartLineInfo.quantity}</dd>
                                 <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Subtotal">Subtotal:</dt>

@@ -1,27 +1,38 @@
 package org.dynamo.applicantsapp.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
- 
+import javax.persistence.*;
+import java.util.Set;
+
+
 @Entity
 @Table(name = "users")
 public class User {
  
-    private String id;
+    private int id;
     private String first_name;
     private String last_name;
     private String email;
 	private String password;
 	
-    @Id
+	 private Set<UserRole> roles;
+	 
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role_id_user_id", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    public Set<UserRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserRole> roles) {
+		this.roles = roles;
+	}
+
+	@Id
     @Column(name = "id")
-	public String getId() {
+	public int getId() {
 		return id;
 	}
     
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
     @Column(name = "first_name")

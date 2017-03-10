@@ -1,7 +1,8 @@
 package org.dynamo.applicantsapp.config;
 
 import java.util.Properties;
- 
+
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
  
 import org.apache.commons.dbcp.BasicDataSource;
@@ -14,21 +15,28 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
  
 @Configuration
 @ComponentScan("org.dynamo.applicantsapp.*")
 @EnableTransactionManagement
-// Load to Environment.
-//@PropertySource("classpath:datasource-cfg.properties")
+@EnableJpaRepositories(basePackages={"org.dynamo.applicantsapp"})
 @PropertySources({
-    @PropertySource("classpath:datasource-cfg.properties"),
-    @PropertySource("classpath:mail-cfg.properties")
+    //@PropertySource("classpath:datasource-cfg.properties"),
+    //@PropertySource("classpath:mail-cfg.properties")
+	@PropertySource("file:src/main/resources/datasource-cfg.properties"),
+	@PropertySource("file:src/main/resources/mail-cfg.properties")
+	
 })
 public class ApplicationContextConfig {
  
@@ -39,6 +47,31 @@ public class ApplicationContextConfig {
  
 //    @Autowired
 //    private UserInfoDAO userInfoDAO;
+
+
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("org.dynamo.applicantsapp");
+        factory.setDataSource(getDataSource());
+        factory.afterPropertiesSet();
+
+        return factory.getObject();
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(entityManagerFactory());
+        return txManager;
+    }
     
     
     @Bean
@@ -106,7 +139,7 @@ public class ApplicationContextConfig {
             LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
  
             // Package contain entity classes
-            factoryBean.setPackagesToScan(new String[] { "org.dynamo.applicantsapp.entity" });
+            factoryBean.setPackagesToScan(new String[] { "org.dynamo.applicantsapp.entity"});
             factoryBean.setDataSource(dataSource);
             factoryBean.setHibernateProperties(properties);
             factoryBean.afterPropertiesSet();
@@ -127,7 +160,7 @@ public class ApplicationContextConfig {
     @Bean(name = "transactionManager")
     public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
- 
+
         return transactionManager;
     }
  

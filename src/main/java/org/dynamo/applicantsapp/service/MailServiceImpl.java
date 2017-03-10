@@ -2,9 +2,8 @@ package org.dynamo.applicantsapp.service;
 
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
-import org.dynamo.applicantsapp.model.ShoppingCartAnswerInfo;
+import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,7 +17,7 @@ public class MailServiceImpl {
 	 JavaMailSender mailSender;
 	 
 	 
-	 public void sendEmail(ShoppingCartAnswerInfo answerInfo, String userName) {
+	 public void sendEmail(ShoppingCartAnswer answerInfo, String userName) {
 	        MimeMessagePreparator preparator = getMessagePreparator(answerInfo, userName);
 	 
 	        try {
@@ -29,25 +28,21 @@ public class MailServiceImpl {
 	        }
 	    }
 	 
-	    private MimeMessagePreparator getMessagePreparator(final ShoppingCartAnswerInfo answerInfo, final String userName) {
+	    private MimeMessagePreparator getMessagePreparator(final ShoppingCartAnswer answerInfo, final String userName) {
 	 
-	        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+	        MimeMessagePreparator preparator = mimeMessage -> {
+//					mimeMessage.setFrom(new InternetAddress("hr@org.dynamo.ny"));
+                InternetAddress[] recipients = new InternetAddress[]{new InternetAddress(/*"vadym.merkotan@gmail.com"*/"vadim.merkotan@silverlinecrm.com")};
 
-				@Override
-				public void prepare(MimeMessage mimeMessage) throws Exception {
-//					mimeMessage.setFrom(new InternetAddress("hr@org.dynamo.ny"));					
-					InternetAddress[] recipients = new InternetAddress[]{new InternetAddress("vadim.merkotan@silverlinecrm.com")};
-					
-					mimeMessage.addRecipients(Message.RecipientType.TO, recipients);
-					
-					String messageStr = "<h4>Bugs:</h4></br><p>" + answerInfo.getBugs() + "</p>";
-					messageStr += "<h4>Improvements:</h4></br><p>" + answerInfo.getImprovements() + "</p>";
-					messageStr += "<h4>Test cases:</h4></br><p>" + answerInfo.getTest_cases() + "</p>";					
-					mimeMessage.setContent(messageStr, "text/html");
-	                mimeMessage.setSubject(userName + " answer's for shopping cart app");
-					
-				}
-	        };
+                mimeMessage.addRecipients(Message.RecipientType.TO, recipients);
+
+                String messageStr = "<h4>Bugs:</h4></br><p>" + answerInfo.getBugs() + "</p>";
+                messageStr += "<h4>Improvements:</h4></br><p>" + answerInfo.getImprovements() + "</p>";
+                messageStr += "<h4>Test cases:</h4></br><p>" + answerInfo.getTestCases() + "</p>";
+                mimeMessage.setContent(messageStr, "text/html");
+                mimeMessage.setSubject(userName + "'s answers for shopping cart app");
+
+            };
 	        return preparator;
 	    }
 
