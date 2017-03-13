@@ -40,16 +40,24 @@
 		    	<form:input type="email" path="email" id="email" class="slds-input" name="email" required="true"/>
 		    </div>		    
 		  </div>
-		  
-		  <!-- form:checkboxes items="${userForm.roles}" path="roles" itemLabel="role" itemValue="role"/ -->
-		  
-           <c:forEach items="${userForm.roles}" var="r" varStatus="i" begin="0" >
-               <tr class="person">
-                   <form:checkbox path="roles[${i.index}]" value="roles[${i.index}].role"/>
-               </tr>
-           </c:forEach>
-		    
-                   
+
+					<c:forEach items="${userForm.roles}" var="r" varStatus="i" begin="0" >
+
+						<!--form:checkbox path="roles[${i.index}]" value="roles[${i.index}].role" id="checkbox-${i.index}"/-->
+
+						<div class="slds-form-element">
+							<div class="slds-form-element__control">
+								<span class="slds-checkbox">
+								  <form:checkbox path="roles[${i.index}]" id="checkbox-${i.index}" value="roles[${i.index}].role"/>
+								  <label class="slds-checkbox__label" for="checkbox-${i.index}">
+									<span class="slds-checkbox--faux"></span>
+									<span class="slds-form-element__label">${r.role}</span>
+								  </label>
+								</span>
+							</div>
+						</div>
+					</c:forEach>
+
                  <div class="slds-button-group" role="group">
 				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>
 				  <button type="reset" class="slds-button slds-button--neutral">Reset</button>
