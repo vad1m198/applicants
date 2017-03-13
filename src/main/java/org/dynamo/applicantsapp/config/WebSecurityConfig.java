@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
         
         http.authorizeRequests().antMatchers("/shopping-cart/*").access("hasRole('ROLE_SHOPPING_CART_USER')");
+        http.authorizeRequests().antMatchers("/admin/*").access("hasRole('ROLE_ADMIN_USER')");
         
         // When the user has logged in as XX.
         // But access a page that requires role YY,

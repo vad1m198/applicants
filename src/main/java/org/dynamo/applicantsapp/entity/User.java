@@ -1,6 +1,8 @@
 package org.dynamo.applicantsapp.entity;
 
 import javax.persistence.*;
+
+import java.util.List;
 import java.util.Set;
 
 
@@ -14,15 +16,15 @@ public class User {
     private String email;
 	private String password;
 	
-	 private Set<UserRole> roles;
+	 private List<UserRole> roles;
 	 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role_id_user_id", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    public Set<UserRole> getRoles() {
+    public List<UserRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<UserRole> roles) {
+	public void setRoles(List<UserRole> roles) {
 		this.roles = roles;
 	}
 
