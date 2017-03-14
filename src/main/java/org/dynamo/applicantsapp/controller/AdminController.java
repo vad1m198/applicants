@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.CustomerInfo;
+import org.dynamo.applicantsapp.model.UserFormInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.dynamo.applicantsapp.util.Utils;
@@ -46,12 +47,13 @@ public class AdminController {
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.GET)
    public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {	   
 	   if(id.isEmpty()) {
-		   User user = Utils.getUserFormInSession(request);		   
+		   UserFormInfo info = Utils.getUserFormInSession(request);
 		   List<UserRole> roles = userRoleService.getAllRoles();		   
-		   user.setRoles(roles);
+		   info.setAllRoles(roles);
+		   info.setUser(new User());
 		   System.out.println("user.getRoles() >>>>>>>>>>>>>>>>>>>>> ");
-		   System.out.println(user.getRoles());
-		   model.addAttribute("userForm",user);
+		   System.out.println(info.getAllRoles());
+		   model.addAttribute("userFormInfo",info);
 		   return "admin/userFormPage";
 	   }
 	   
@@ -66,14 +68,13 @@ public class AdminController {
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
    public String saveUser(HttpServletRequest request, //
            Model model, //
-           @ModelAttribute("user") User user, BindingResult result) {
+           @ModelAttribute("userForimInfo") UserFormInfo info, BindingResult result) {
 	   	   
-	   System.out.println(user.getEmail());
-	   System.out.println(user.getId());
+	   System.out.println(info.getUser().getEmail());
+	   System.out.println(info.getUser().getId());
 	   
 	   System.out.println("roles >>>>>>>>>>>>>>>>>>>>>>>>>> ");
-	   System.out.println(user);
-	   System.out.println(user.getRoles());
+	   System.out.println(info.getAllRoles());
 	   
 //	   for(UserRole r: user.getRoles()) {
 //		   System.out.println(r.getRole());

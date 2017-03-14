@@ -8,6 +8,7 @@ import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.CartInfo;
+import org.dynamo.applicantsapp.model.UserFormInfo;
 
 public class Utils {
  
@@ -54,11 +55,11 @@ public class Utils {
 		request.getSession().setAttribute(usersAttrName, users);       
 	}
 	
-	public static User getUserFormInSession(HttpServletRequest request) {
-		String usersAttrName = "userForm";
-		User u = (User) request.getSession().getAttribute(usersAttrName);
+	public static UserFormInfo getUserFormInSession(HttpServletRequest request) {
+		String usersAttrName = "userFormInfo";
+		UserFormInfo u = (UserFormInfo) request.getSession().getAttribute(usersAttrName);
 		if(u == null) {
-			u = new User();
+			u = new UserFormInfo();
 			request.getSession().setAttribute(usersAttrName, u);
 		}
 		return u;
