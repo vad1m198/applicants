@@ -21,37 +21,42 @@
 		<form:form class="slds-form--stacked" method="POST" modelAttribute="userFormInfo"
        			action="${pageContext.request.contextPath}/admin/userForm">
 		  <div class="slds-form-element">
-		    <label class="slds-form-element__label" for="first_name">First Name:</label>
+		    <label class="slds-form-element__label" for="firstName">First Name:</label>
 		    <div class="slds-form-element__control">
-		    	<form:input path="user.first_name" id="first_name" class="slds-input" name="first_name" required="true"/>
+		    	<form:input path="userInfo.firstName" id="firstName" class="slds-input" name="firstName" required="true"/>
 		    	<!-- input type="text" id="first_name" class="slds-input" name='first_name' value='' required/ -->
 		    </div>		    
 		  </div>
 		  <div class="slds-form-element">
-		    <label class="slds-form-element__label" for="last_name">Last Name:</label>
+		    <label class="slds-form-element__label" for="lastName">Last Name:</label>
 		    <div class="slds-form-element__control">
 		    	<!--input type="text" id="last_name" class="slds-input" name='last_name' value='' required/-->
-		    	<form:input path="user.last_name" id="last_name" class="slds-input" name="last_name" required="true"/>
+		    	<form:input path="userInfo.lastName" id="lastName" class="slds-input" name="lastName" required="true"/>
 		    </div>		    
 		  </div>
 		  <div class="slds-form-element">
 		    <label class="slds-form-element__label" for="email">Email:</label>
 		    <div class="slds-form-element__control">
-		    	<form:input path="user.email" type="email" id="email" class="slds-input" name="email" required="true"/>
+		    	<form:input path="userInfo.email" type="email" id="email" class="slds-input" name="email" required="true"/>
 		    </div>		    
 		  </div>
 			<div class="slds-form-element">
 				<label class="slds-form-element__label" for="last_name">Password:</label>
 				<div class="slds-form-element__control">
 					<!--input type="text" id="last_name" class="slds-input" name='last_name' value='' required/-->
-					<form:input path="user.password" id="password" class="slds-input" name="password" required="true"/>
+					<form:input path="userInfo.password" id="password" class="slds-input" name="password" required="true"/>
 				</div>
 			</div>
 
-					<c:forEach items="${userFormInfo.allRoles}" var="r" varStatus="i" begin="0" >
-						<form:checkbox path="allRoles[${i.index}]" id="checkbox-${i.index}" value="allRoles[${i.index}].role"/>
+
+					<!-- form:checkbox path="rolesInfo[${i.index}].role" id="checkbox-${i.index}" value="rolesInfo[${i.index}].role"/ -->
+
+					<%--c:forEach items="${userFormInfo.rolesInfo}" var="r" varStatus="i" begin="0">						
+						<form:checkbox path="rolesInfo" id="checkbox-${i.index}" value="${r.role}"/>
 						<label for="checkbox-${i.index}">${r.role}</label>
-					</c:forEach>
+					</c:forEach--%>
+					
+					<form:checkboxes path="rolesInfo" items="${userFormInfo.rolesInfo}" itemLabel="role"/>
 
                  <div class="slds-button-group" role="group">
 				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>

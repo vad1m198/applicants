@@ -2,6 +2,7 @@ package org.dynamo.applicantsapp.controller;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,7 @@ import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.CustomerInfo;
 import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.dynamo.applicantsapp.model.UserRoleInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.dynamo.applicantsapp.util.Utils;
@@ -48,11 +50,22 @@ public class AdminController {
    public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {	   
 	   if(id.isEmpty()) {
 		   UserFormInfo info = Utils.getUserFormInSession(request);
-		   List<UserRole> roles = userRoleService.getAllRoles();		   
-		   info.setAllRoles(roles);
-		   info.setUser(new User());
-		   System.out.println("user.getRoles() >>>>>>>>>>>>>>>>>>>>> ");
-		   System.out.println(info.getAllRoles());
+		   
+		   if(info == null) {
+			   info = new UserFormInfo();
+			   List<UserRole> roles = userRoleService.getAllRoles();
+			   List<UserRoleInfo> rolesInfo = roles.stream()
+					   .map(role -> new UserRoleInfo(role, false))
+					   .collect(Collectors.toList());
+					   
+			   info.setRolesInfo(rolesInfo);
+			   
+		   }
+		   
+		   
+		   
+		   System.out.println("userInfo >>>>>>>>>>>>>>>>>>>>> ");
+		   System.out.println(info.getRolesInfo());
 		   model.addAttribute("userFormInfo",info);
 		   return "admin/userFormPage";
 	   }
@@ -68,17 +81,23 @@ public class AdminController {
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
    public String saveUser(HttpServletRequest request, //
            Model model, //
-           @ModelAttribute("userForimInfo") UserFormInfo info, BindingResult result) {
-	   	   
-	   System.out.println(info.getUser().getEmail());
-	   System.out.println(info.getUser().getId());
+           @ModelAttribute("userFormInfo") UserFormInfo info) {
+
+	   User user = new User(info);
+	   
+	   System.out.println("Email: " + user.getEmail());
+	   System.out.println("First name: " + user.getFirst_name());
+	   System.out.println("Last Name:" + user.getLast_name());
+	   System.out.println("Id: " + user.getId());
+	   System.out.println("Password: " + user.getPassword());
+	   
 	   
 	   System.out.println("roles >>>>>>>>>>>>>>>>>>>>>>>>>> ");
-	   System.out.println(info.getAllRoles());
 	   
-//	   for(UserRole r: user.getRoles()) {
-//		   System.out.println(r.getRole());
-//	   }
+	   for(UserRole r : user.getRoles()) {
+		   System.out.println(r.getId());
+		   System.out.println(r.getRole());
+	   }
 
 	   return "admin/dashboardPage";
    }

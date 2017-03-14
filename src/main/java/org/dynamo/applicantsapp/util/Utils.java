@@ -57,12 +57,7 @@ public class Utils {
 	
 	public static UserFormInfo getUserFormInSession(HttpServletRequest request) {
 		String usersAttrName = "userFormInfo";
-		UserFormInfo u = (UserFormInfo) request.getSession().getAttribute(usersAttrName);
-		if(u == null) {
-			u = new UserFormInfo();
-			request.getSession().setAttribute(usersAttrName, u);
-		}
-		return u;
+		return (UserFormInfo) request.getSession().getAttribute(usersAttrName);		
 	}
 	
 //	public static void setUserFormInSession(HttpServletRequest request, User user) {

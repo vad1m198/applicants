@@ -1,6 +1,9 @@
 package org.dynamo.applicantsapp.entity;
 
 import javax.persistence.*;
+
+import org.dynamo.applicantsapp.model.UserRoleInfo;
+
 import java.util.Set;
 
 @Entity
@@ -11,6 +14,14 @@ public class UserRole {
     private String role;
     private Set<User> users;
     
+	public UserRole(UserRoleInfo info) {
+		this.id = info.getId();
+		this.role = info.getRole();
+	}
+	
+	public UserRole() {
+	}
+	
 	@Id
     @Column(name = "id")
     public int getId() {

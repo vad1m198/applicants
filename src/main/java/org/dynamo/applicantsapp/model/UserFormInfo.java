@@ -1,8 +1,6 @@
 package org.dynamo.applicantsapp.model;
 
-import org.dynamo.applicantsapp.entity.User;
-import org.dynamo.applicantsapp.entity.UserRole;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,24 +8,29 @@ import java.util.List;
  */
 public class UserFormInfo {
 
-    private User user;
+    private UserInfo userInfo;
 
-    private List<UserRole> allRoles;
-
-
-    public User getUser() {
-        return user;
+    private List<UserRoleInfo> rolesInfo;
+    
+    public UserFormInfo() {
+    	userInfo = new UserInfo();
+    	rolesInfo = new ArrayList<UserRoleInfo>();
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 
-    public List<UserRole> getAllRoles() {
-        return allRoles;
-    }
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
 
-    public void setAllRoles(List<UserRole> allRoles) {
-        this.allRoles = allRoles;
-    }
+	public List<UserRoleInfo> getRolesInfo() {
+		return rolesInfo;
+	}
+
+	public void setRolesInfo(List<UserRoleInfo> rolesInfo) {
+		this.rolesInfo = rolesInfo;
+	}
+
 }
