@@ -41,32 +41,12 @@
 		    </div>		    
 		  </div>
 			<div class="slds-form-element">
-				<label class="slds-form-element__label" for="last_name">Password:</label>
+				<label class="slds-form-element__label" for="password">Password:</label>
 				<div class="slds-form-element__control">
-					<!--input type="text" id="last_name" class="slds-input" name='last_name' value='' required/-->
 					<form:input path="userInfo.password" id="password" class="slds-input" required="true"/>
 				</div>
 			</div>
-
-
-					<!-- form:checkbox path="rolesInfo[${i.index}].role" id="checkbox-${i.index}" value="rolesInfo[${i.index}].role"/ -->
-
-					<%--c:forEach items="${userFormInfo.rolesInfo}" var="r" varStatus="i" begin="0">						
-						<form:checkbox path="rolesInfo" id="checkbox-${i.index}" value="${r}.id"/>
-						<label for="checkbox-${i.index}">${r.role}</label>
-					</c:forEach --%>
-					
-					<%--c:forEach items="${userFormInfo.rolesInfo}" var="r" varStatus="i" begin="0">						
-						<form:checkbox path="rolesInfo[${i.index}]" id="checkbox-${i.index}" value="${r}"/>
-						<label for="checkbox-${i.index}">${r}</label>
-					</c:forEach --%>
-					
-					<%-- form:checkboxes items="${allRoles}" path="roles" itemLabel="name" itemValue="id" delimiter="<br/>"/--%>
-					
-					<%--form:checkboxes path="rolesInfo" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" / --%>
-					
-					<form:checkboxes path="rolesIds" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" />
-					
+			<form:checkboxes path="rolesIds" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" />
 
                  <div class="slds-button-group" role="group">
 				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>
