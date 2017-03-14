@@ -34,11 +34,13 @@ public class User {
 		this.email = info.getUserInfo().getEmail();
 		this.password = info.getUserInfo().getPassword();
 		
-		List<UserRole> roles = info.getRolesInfo()
-						.stream()
-						.filter(i -> i != null)
-						.map(r -> new UserRole(r)).collect(Collectors.toList());		
-		this.roles = roles;
+//		if(info.getRolesInfo() != null) {
+//			List<UserRole> roles = info.getRolesInfo()
+//					.stream()
+//					.filter(i -> i != null)
+//					.map(r -> new UserRole(r)).collect(Collectors.toList());		
+//			this.roles = roles;
+//		}
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)

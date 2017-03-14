@@ -10,10 +10,12 @@ public class UserFormInfo {
 
     private UserInfo userInfo;
 
-    private List<UserRoleInfo> rolesInfo;
+    private List<UserRoleInfo> rolesInfo;    
+//    private List<String> rolesInfo;
     
     public UserFormInfo() {
     	userInfo = new UserInfo();
+//    	rolesInfo = new ArrayList<String>();
     	rolesInfo = new ArrayList<UserRoleInfo>();
     }
 
@@ -25,6 +27,14 @@ public class UserFormInfo {
 		this.userInfo = userInfo;
 	}
 
+//	public List<String> getRolesInfo() {
+//		return rolesInfo;
+//	}
+//
+//	public void setRolesInfo(List<String> rolesInfo) {
+//		this.rolesInfo = rolesInfo;
+//	}
+	
 	public List<UserRoleInfo> getRolesInfo() {
 		return rolesInfo;
 	}

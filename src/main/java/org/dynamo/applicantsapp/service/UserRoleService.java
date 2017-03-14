@@ -12,14 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Repository
 public class UserRoleService {
-	
+		
 	@Autowired
 	UserRoleRepository userRoleRepository;
 	
     @Transactional
 	public List<UserRole> getAllRoles() {
-		return userRoleRepository.findAll();
-		
+		return userRoleRepository.findAll();		
+	}
+    
+    @Transactional
+	public UserRole getRoleById(int id) {
+		return userRoleRepository.findOne(id);		
 	}
 
 }
