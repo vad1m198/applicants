@@ -3,12 +3,7 @@ package org.dynamo.applicantsapp.entity;
 import javax.persistence.*;
 
 import org.dynamo.applicantsapp.model.UserFormInfo;
-import org.dynamo.applicantsapp.model.UserRoleInfo;
-
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -33,17 +28,9 @@ public class User {
 		this.last_name = info.getUserInfo().getLastName();
 		this.email = info.getUserInfo().getEmail();
 		this.password = info.getUserInfo().getPassword();
-		
-//		if(info.getRolesInfo() != null) {
-//			List<UserRole> roles = info.getRolesInfo()
-//					.stream()
-//					.filter(i -> i != null)
-//					.map(r -> new UserRole(r)).collect(Collectors.toList());		
-//			this.roles = roles;
-//		}
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_role_id_user_id", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     public List<UserRole> getRoles() {
 		return roles;
@@ -55,6 +42,7 @@ public class User {
 
 	@Id
     @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	public int getId() {
 		return id;
 	}

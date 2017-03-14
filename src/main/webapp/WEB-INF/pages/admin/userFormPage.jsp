@@ -63,7 +63,10 @@
 					
 					<%-- form:checkboxes items="${allRoles}" path="roles" itemLabel="name" itemValue="id" delimiter="<br/>"/--%>
 					
-					<form:checkboxes path="rolesInfo" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" />
+					<%--form:checkboxes path="rolesInfo" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" / --%>
+					
+					<form:checkboxes path="rolesIds" items="${userFormInfo.rolesInfo}" itemLabel="role" itemValue="id" />
+					
 
                  <div class="slds-button-group" role="group">
 				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>

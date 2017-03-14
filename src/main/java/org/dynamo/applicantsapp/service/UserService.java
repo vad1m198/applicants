@@ -20,5 +20,10 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    
+    @Transactional
+	public void save(User user) {
+    	userRepository.saveAndFlush(user);
+	}
 
 }
