@@ -2,12 +2,15 @@ package org.dynamo.applicantsapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.dynamo.applicantsapp.model.UserInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.dynamo.applicantsapp.util.Utils;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -58,21 +62,46 @@ public class AdminController {
    }
    
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.GET)
-   public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {	   
-	   if(id.isEmpty()) {
-	   
-		   UserFormInfo info = Utils.getUserFormInSession1(request);
-
-		   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
-			   List<UserRole> roles = userRoleService.getAllRoles();
-			   info.setRolesInfo(roles);
+   public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
+	   UserFormInfo info = null;
+//	   Utils.getUserFormInSession(request);
+//	   List<UserRole> roles = userRoleService.getAllRoles();
+//	   info.setRolesInfo(roles);
+	   if(!id.isEmpty()) {		   
+		   Integer idInt = null;
+		   try {
+			   idInt = Integer.parseInt(id);
+		   } catch(NumberFormatException nfe) {
+			   nfe.printStackTrace();
 		   }
+		   
+		   if(idInt != null) {
+			   List<User> users = userService.getAllById(idInt);
+			   if(users != null && !users.isEmpty()) {
+				   User user = users.get(0);
+				   info = new UserFormInfo();
+				   info.setUserInfo(new UserInfo(user));
+				   List<UserRole> roles = userRoleService.getAllRoles();
+				   info.setRolesInfo(roles);
 
-		   model.addAttribute("userFormInfo",info);
-		   return "admin/userFormPage";
+				   				   
+				   List<Integer> roleIds = user.getRoles()
+						   			.stream()
+						   			.map(r -> r.getId())
+						   			.collect(Collectors.toList());
+				   
+				   info.setRolesIds(roleIds);
+			   }
+		   }
+	   } else {
+		   info = new UserFormInfo();
+		   info.setUserInfo(new UserInfo());
+		   List<UserRole> roles = userRoleService.getAllRoles();
+		   info.setRolesInfo(roles);
 	   }
+	   model.addAttribute("userFormInfo",info);
 	   
-	   return "admin/dashboardPage";
+	   return "admin/userFormPage";
    }
    
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
@@ -84,6 +113,7 @@ public class AdminController {
        // If has Errors.
        if (result.hasErrors()) {
     	   info.setValid(false);
+
            // Forward to reenter customer info.
     	   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
     		   List<UserRole> roles = userRoleService.getAllRoles();
@@ -92,6 +122,7 @@ public class AdminController {
            return "admin/userFormPage";
        }
        info.setValid(true);
+       System.out.println("info.getRolesInfo() >>>>>>>>>>>>>>>>>>>>>>>> " + info.getRolesInfo());
 	   User user = new User(info);	   
 	   List<UserRole> roles = new ArrayList<UserRole>();	   
 	   for(int i: info.getRolesIds()) {

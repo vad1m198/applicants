@@ -1,5 +1,7 @@
 package org.dynamo.applicantsapp.model;
 
+import org.dynamo.applicantsapp.entity.User;
+
 public class UserInfo {
 	
     private int id;
@@ -8,6 +10,17 @@ public class UserInfo {
     private String email;
 	private String password;
 	
+	public UserInfo(User user) {
+		this.id = user.getId();
+		this.firstName = user.getFirst_name();
+		this.lastName = user.getLast_name();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+	}
+	
+	public UserInfo() {
+	
+	}
 	public int getId() {
 		return id;
 	}

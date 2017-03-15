@@ -20,6 +20,7 @@
 	<div class="custome-info-container slds-m-around--medium">
 		<form:form class="slds-form--stacked" method="POST" modelAttribute="userFormInfo"
        			action="${pageContext.request.contextPath}/admin/userForm">
+       			<form:hidden path="userInfo.id" />
 		  <div class="slds-form-element">
 		    <label class="slds-form-element__label" for="firstName">First Name:</label>
 		    <div class="slds-form-element__control">
@@ -57,6 +58,7 @@
 				  <button type="submit" class="slds-button slds-button--neutral">Submit</button>
 				  <button type="reset" class="slds-button slds-button--neutral">Reset</button>
 				</div>
+				
 		</form:form>
 		</div>
  </div>

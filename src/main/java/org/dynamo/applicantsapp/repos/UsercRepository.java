@@ -9,5 +9,7 @@ import java.util.List;
 public interface UsercRepository extends JpaRepository<User, Integer> {
 
     List<User> findByEmail(String emailAddress);
+    
+    List<User> findById(Integer id);
 
 }

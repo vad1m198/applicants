@@ -14,7 +14,7 @@ public class UserFormInfo {
     private List<Integer> rolesIds;
     
     private boolean valid;
-
+    
 	public boolean isValid() {
 		return valid;
 	}

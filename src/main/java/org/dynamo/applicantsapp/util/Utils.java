@@ -56,30 +56,30 @@ public class Utils {
 //		request.getSession().removeAttribute(usersAttrName);
 //		request.getSession().setAttribute(usersAttrName, users);
 //	}
-	
-	public static UserFormInfo getUserFormInSession(HttpServletRequest request) {
-		String usersAttrName = "userFormInfo";
-		return (UserFormInfo) request.getSession().getAttribute(usersAttrName);		
-	}
-	
-    // Products in Cart, stored in Session.
-    public static UserFormInfo getUserFormInSession1(HttpServletRequest request) {
- 
-        // Get Cart from Session.
-    	UserFormInfo info = (UserFormInfo) request.getSession().getAttribute("userForm");
-        
-        // If null, create it.
-        if (info == null) {
-        	info = new UserFormInfo();
-        	info.setUserInfo(new UserInfo());
-        	info.setRolesIds(new ArrayList<Integer>());
-            // And store to Session.
-            request.getSession().setAttribute("userForm", info);
-        }
- 
-        return info;
-    }
-	
+//	
+//	public static UserFormInfo getUserFormInSession(HttpServletRequest request) {
+//		String usersAttrName = "userFormInfo";
+//		return (UserFormInfo) request.getSession().getAttribute(usersAttrName);		
+//	}
+//	
+//    // Products in Cart, stored in Session.
+//    public static UserFormInfo getUserFormInSession(HttpServletRequest request) {
+// 
+//        // Get Cart from Session.
+//    	UserFormInfo info = (UserFormInfo) request.getSession().getAttribute("userForm");
+//        
+//        // If null, create it.
+//        if (info == null) {
+//        	info = new UserFormInfo();
+//        	info.setUserInfo(new UserInfo());
+//        	info.setRolesIds(new ArrayList<Integer>());
+//            // And store to Session.
+//            request.getSession().setAttribute("userForm", info);
+//        }
+// 
+//        return info;
+//    }
+//	
 //	public static void setUserFormInSession(HttpServletRequest request, UserFormInfo info) {
 //		String usersAttrName = "userFormInfo";
 //		request.getSession().removeAttribute(usersAttrName);

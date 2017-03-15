@@ -1,7 +1,11 @@
 package org.dynamo.applicantsapp.validator;
  
+import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.model.UserFormInfo;
 import org.dynamo.applicantsapp.service.UserService;
+
+import java.util.List;
+
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,11 +46,21 @@ public class UserFormValidator implements Validator {
         
         if (!emailValidator.isValid(userFormInfo.getUserInfo().getEmail())) {
             errors.rejectValue("userInfo.email", "Pattern.userForm.email");
-        } else if(!userService.getAllByEmail(userFormInfo.getUserInfo().getEmail()).isEmpty()){
-        	errors.rejectValue("userInfo.email", "Pattern.userForm.emailExist");
         } else if(userFormInfo.getUserInfo().getEmail().length() > 50){
         	errors.rejectValue("userInfo.email", "Length.userForm.Email");
         }
+        
+        List<User> users = userService.getAllByEmail(userFormInfo.getUserInfo().getEmail());
+        
+        if(!users.isEmpty()){
+        	for(User u: users) {
+        		System.out.println(u.getId() + " : " + userFormInfo.getUserInfo().getId());
+        		if(u.getId() != userFormInfo.getUserInfo().getId()) {
+        			errors.rejectValue("userInfo.email", "Pattern.userForm.emailExist");
+        			break;
+        		}
+        	}
+        } 
         	
     	if(userFormInfo.getUserInfo().getPassword().length() > 16 || userFormInfo.getUserInfo().getPassword().length() < 5) {
         	errors.rejectValue("userInfo.password", "Length.userForm.Password");

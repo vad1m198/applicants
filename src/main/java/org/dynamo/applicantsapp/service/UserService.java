@@ -27,6 +27,16 @@ public class UserService {
     }
     
     @Transactional
+    public User getById(Integer id) {
+        return userRepository.getOne(id);
+    }
+    
+    @Transactional
+    public List<User> getAllById(Integer id) {
+        return userRepository.findById(id);
+    }
+    
+    @Transactional
 	public void save(User user) {
     	userRepository.saveAndFlush(user);
 	}
