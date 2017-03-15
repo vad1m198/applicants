@@ -38,3 +38,14 @@
 	max-width: 1250px;
 	margin:auto;
 }
+
+.roles-container {
+	margin: 15px 0;
+	display: flex;
+	flex-direction: column;
+	padding-left: 15px;
+}
+
+.roles-container input[type="checkbox"] {
+	margin-right: 5px;
+}

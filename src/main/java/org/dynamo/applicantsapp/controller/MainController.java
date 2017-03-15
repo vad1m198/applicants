@@ -2,8 +2,6 @@ package org.dynamo.applicantsapp.controller;
 
 import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -47,7 +47,6 @@ public class UserRole {
 		int result = 1;
 		result = prime * result + id;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 

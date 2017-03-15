@@ -11,45 +11,63 @@ import org.dynamo.applicantsapp.model.UserFormInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.dynamo.applicantsapp.util.Utils;
+import org.dynamo.applicantsapp.validator.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 @Controller
 public class AdminController {
 	
+    @Autowired
+    private UserFormValidator userFormValidator;
     
     @Autowired
     private UserService userService;
     
     @Autowired
     private UserRoleService userRoleService;
+    
+    @InitBinder
+    public void myInitBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if (target == null) {
+            return;
+        } else if (target.getClass() == UserFormInfo.class) {
+            dataBinder.setValidator(userFormValidator);
+        }
+    }
  
 	
    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
    public String getDashboard(HttpServletRequest request) {
-	   
-	   List<User> usersInSession = Utils.getUsersInSession(request);
-	   if(usersInSession == null) {
-		   List<User> users = userService.getAllUsers();
-		   Utils.setUsersInSession(request, users);
-	   }
+	   List<User> users = userService.getAllUsers();
+	   request.getSession().removeAttribute("allUsers");
+	   request.getSession().setAttribute("allUsers", users);
 	   return "admin/dashboardPage";
    }
    
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.GET)
    public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {	   
 	   if(id.isEmpty()) {
-		   UserFormInfo info = Utils.getUserFormInSession(request);
-		   if(info == null) {
-			   info = new UserFormInfo();
-			   List<UserRole> roles = userRoleService.getAllRoles();			   
+	   
+		   UserFormInfo info = Utils.getUserFormInSession1(request);
+
+		   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
+			   List<UserRole> roles = userRoleService.getAllRoles();
 			   info.setRolesInfo(roles);
-		   }	
+		   }
+
 		   model.addAttribute("userFormInfo",info);
 		   return "admin/userFormPage";
 	   }
@@ -60,8 +78,20 @@ public class AdminController {
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
    public String saveUser(HttpServletRequest request, //
            Model model, //
-           @ModelAttribute("userFormInfo") UserFormInfo info) {
-
+           @ModelAttribute("userFormInfo") @Validated UserFormInfo info,
+           BindingResult result, //
+           final RedirectAttributes redirectAttributes) {	   
+       // If has Errors.
+       if (result.hasErrors()) {
+    	   info.setValid(false);
+           // Forward to reenter customer info.
+    	   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
+    		   List<UserRole> roles = userRoleService.getAllRoles();
+			   info.setRolesInfo(roles);
+		   }
+           return "admin/userFormPage";
+       }
+       info.setValid(true);
 	   User user = new User(info);	   
 	   List<UserRole> roles = new ArrayList<UserRole>();	   
 	   for(int i: info.getRolesIds()) {
@@ -88,8 +118,6 @@ public class AdminController {
 	   
 	   userService.save(user);
 	   
-	   
-	   
-	   return "admin/dashboardPage";
+	   return "redirect:dashboard";
    }
 }

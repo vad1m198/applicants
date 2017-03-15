@@ -22,6 +22,11 @@ public class UserService {
     }
     
     @Transactional
+    public List<User> getAllByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    
+    @Transactional
 	public void save(User user) {
     	userRepository.saveAndFlush(user);
 	}

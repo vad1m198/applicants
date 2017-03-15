@@ -24,10 +24,10 @@ public class User {
 	 
 	public User(UserFormInfo info) {
 		this.id = info.getUserInfo().getId();
-		this.first_name = info.getUserInfo().getFirstName();
-		this.last_name = info.getUserInfo().getLastName();
-		this.email = info.getUserInfo().getEmail();
-		this.password = info.getUserInfo().getPassword();
+		this.first_name = info.getUserInfo().getFirstName().trim();
+		this.last_name = info.getUserInfo().getLastName().trim();
+		this.email = info.getUserInfo().getEmail().trim();
+		this.password = info.getUserInfo().getPassword().trim();
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)

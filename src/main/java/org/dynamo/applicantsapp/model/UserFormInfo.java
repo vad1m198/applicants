@@ -12,6 +12,16 @@ public class UserFormInfo {
     private UserInfo userInfo;
     private List<UserRole> rolesInfo;
     private List<Integer> rolesIds;
+    
+    private boolean valid;
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
 
 	public UserInfo getUserInfo() {
 		return userInfo;
