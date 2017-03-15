@@ -36,7 +36,7 @@
 			        <div class="slds-truncate" title="Roles">Roles</div>
 			      </th>
 		      	  <th scope="col">
-			        <div class="slds-truncate" title="Edit">Edit</div>
+			        <div class="slds-truncate" title="Details">Details</div>
 			      </th>
 			    </tr>
 			  </thead>
@@ -60,8 +60,8 @@
 						</c:forEach>
 					</div>
 			      </td>
-			     <td data-label="Edit">
-			        <div class="slds-truncate" title="${user.email}"><a href="${pageContext.request.contextPath}/admin/userForm?id=${user.id}">Edit</a></div>
+			     <td data-label="Details">
+			        <div class="slds-truncate" title="${user.email}"><a href="${pageContext.request.contextPath}/admin/view?id=${user.id}">Details</a></div>
 			      </td>  
 			    </tr>
 			    </c:forEach>

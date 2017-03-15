@@ -88,6 +88,8 @@ public class AdminController {
 
 				   info.setRolesIds(roleIds);
 			   }
+		   } else {
+			   return "/404";
 		   }
 	   }
 
@@ -148,6 +150,28 @@ public class AdminController {
 	   
 	   userService.save(user);
 	   
-	   return "redirect:dashboard";
+	   return "redirect:view?id=" + user.getId();
    }
+
+	@RequestMapping(value = "/admin/view", method = RequestMethod.GET)
+	public String getUserDetails(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
+
+		if(!id.isEmpty()) {
+			Integer idInt = null;
+			try {
+				idInt = Integer.parseInt(id);
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+			}
+			if (idInt != null) {
+				User user = userService.getById(idInt);
+				if (user != null) {
+					model.addAttribute("userDetailsInfo",user);
+					return "admin/userDetailsPage";
+				}
+			}
+		}
+
+		return "/404";
+	}
 }
