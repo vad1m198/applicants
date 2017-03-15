@@ -54,7 +54,7 @@ public class UserFormValidator implements Validator {
         
         if(!users.isEmpty()){
         	for(User u: users) {
-        		System.out.println(u.getId() + " : " + userFormInfo.getUserInfo().getId());
+//        		System.out.println(u.getId() + " : " + userFormInfo.getUserInfo().getId());
         		if(u.getId() != userFormInfo.getUserInfo().getId()) {
         			errors.rejectValue("userInfo.email", "Pattern.userForm.emailExist");
         			break;

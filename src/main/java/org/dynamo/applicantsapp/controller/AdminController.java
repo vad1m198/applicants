@@ -64,41 +64,40 @@ public class AdminController {
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.GET)
    public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
 	   UserFormInfo info = null;
-//	   Utils.getUserFormInSession(request);
-//	   List<UserRole> roles = userRoleService.getAllRoles();
-//	   info.setRolesInfo(roles);
-	   if(!id.isEmpty()) {		   
+	   if(!id.isEmpty()) {
 		   Integer idInt = null;
 		   try {
 			   idInt = Integer.parseInt(id);
-		   } catch(NumberFormatException nfe) {
+		   } catch (NumberFormatException nfe) {
 			   nfe.printStackTrace();
 		   }
-		   
-		   if(idInt != null) {
-			   List<User> users = userService.getAllById(idInt);
-			   if(users != null && !users.isEmpty()) {
-				   User user = users.get(0);
+
+		   if (idInt != null) {
+
+			   User user = userService.getById(idInt);
+			   if (user != null) {
 				   info = new UserFormInfo();
 				   info.setUserInfo(new UserInfo(user));
 				   List<UserRole> roles = userRoleService.getAllRoles();
 				   info.setRolesInfo(roles);
 
-				   				   
 				   List<Integer> roleIds = user.getRoles()
-						   			.stream()
-						   			.map(r -> r.getId())
-						   			.collect(Collectors.toList());
-				   
+						   .stream()
+						   .map(r -> r.getId())
+						   .collect(Collectors.toList());
+
 				   info.setRolesIds(roleIds);
 			   }
 		   }
-	   } else {
+	   }
+
+	   if(info == null) {
 		   info = new UserFormInfo();
 		   info.setUserInfo(new UserInfo());
 		   List<UserRole> roles = userRoleService.getAllRoles();
 		   info.setRolesInfo(roles);
 	   }
+
 	   model.addAttribute("userFormInfo",info);
 	   
 	   return "admin/userFormPage";
@@ -122,7 +121,7 @@ public class AdminController {
            return "admin/userFormPage";
        }
        info.setValid(true);
-       System.out.println("info.getRolesInfo() >>>>>>>>>>>>>>>>>>>>>>>> " + info.getRolesInfo());
+//       System.out.println("info.getRolesInfo() >>>>>>>>>>>>>>>>>>>>>>>> " + info.getRolesInfo());
 	   User user = new User(info);	   
 	   List<UserRole> roles = new ArrayList<UserRole>();	   
 	   for(int i: info.getRolesIds()) {
@@ -134,18 +133,18 @@ public class AdminController {
 	   
 	   user.setRoles(roles);
 	   
-	   System.out.println("Email: " + user.getEmail());
-	   System.out.println("FirstName: " + user.getFirst_name());
-	   System.out.println("LastName: " + user.getLast_name());
-	   System.out.println("Id: " + user.getId());
-	   System.out.println("Password: " + user.getPassword());
-	   
-	   System.out.println("roles >>>> ");
-	   
-	   for(UserRole r: user.getRoles()) {
-		   System.out.println("Id: " + r.getId());
-		   System.out.println("Role: " + r.getRole());
-	   }
+//	   System.out.println("Email: " + user.getEmail());
+//	   System.out.println("FirstName: " + user.getFirst_name());
+//	   System.out.println("LastName: " + user.getLast_name());
+//	   System.out.println("Id: " + user.getId());
+//	   System.out.println("Password: " + user.getPassword());
+//
+//	   System.out.println("roles >>>> ");
+//
+//	   for(UserRole r: user.getRoles()) {
+//		   System.out.println("Id: " + r.getId());
+//		   System.out.println("Role: " + r.getRole());
+//	   }
 	   
 	   userService.save(user);
 	   

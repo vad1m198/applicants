@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="slds">
-<jsp:include page="_adminHeader.jsp" />	
+	<jsp:include page="_adminHeader.jsp" />
 	<div class="slds-text-heading--medium slds-m-around--medium">Enter User Information</div>
 	<div class="custome-info-container slds-m-around--medium">
 		<form:form class="slds-form--stacked" method="POST" modelAttribute="userFormInfo"

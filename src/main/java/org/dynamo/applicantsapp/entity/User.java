@@ -3,10 +3,13 @@ package org.dynamo.applicantsapp.entity;
 import javax.persistence.*;
 
 import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.hibernate.annotations.Proxy;
+
 import java.util.List;
 
 
 @Entity
+@Proxy(lazy = false)
 @Table(name = "users")
 public class User {
  
