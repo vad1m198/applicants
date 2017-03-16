@@ -1,10 +1,7 @@
-package org.dynamo.applicantsapp.tests;
+package org.dynamo.applicantsapp;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.dynamo.applicantsapp.controller.AdminController;
 import org.dynamo.applicantsapp.entity.User;
@@ -24,18 +21,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 
-public class AdminControllerTests {
+public class AdminControllerTest {
 	 
 	@InjectMocks
-	AdminController controller;
+    private AdminController controller;
 
     @Mock
-    UserService mockUserService;
+    private UserService mockUserService;
             
     @Mock
-    View mockView;
+    private View mockView;
     
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Before
     public void setUp() throws Exception {
@@ -47,7 +44,7 @@ public class AdminControllerTests {
 
     @Test
     public void whenGetDashboardReturnAllUsers() throws Exception {    	
-    	List<User> expectedUsers = Arrays.asList(new User());
+    	List<User> expectedUsers = Collections.singletonList(new User());
         when(mockUserService.getAllUsers()).thenReturn(expectedUsers);
         
         mockMvc.perform(get("/admin/dashboard"))
@@ -59,7 +56,7 @@ public class AdminControllerTests {
     @Test
     public void whenGetDashboardWithQueryReturnFindByNameUsers() throws Exception {
     	String queryParam = "test";
-    	List<User> expectedUsers = Arrays.asList(new User());
+    	List<User> expectedUsers = Collections.singletonList(new User());
         when(mockUserService.getByName(queryParam)).thenReturn(expectedUsers);
         
         mockMvc.perform(get("/admin/dashboard?query=" + queryParam))

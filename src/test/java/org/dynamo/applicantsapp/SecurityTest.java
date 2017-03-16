@@ -1,4 +1,4 @@
-package org.dynamo.applicantsapp.tests;
+package org.dynamo.applicantsapp;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,10 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,14 +17,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.io.InputStream;
-
-import javax.mail.internet.MimeMessage;
-
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -51,9 +44,9 @@ import org.dynamo.applicantsapp.validator.UserFormValidator;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SecurityTests.TestConfiguration.class, WebSecurityConfig.class})
+@ContextConfiguration(classes = {SecurityTest.TestConfiguration.class, WebSecurityConfig.class})
 @WebAppConfiguration
-public class SecurityTests {
+public class SecurityTest {
 	
 	@EnableWebMvc
     @Configuration
@@ -139,64 +132,12 @@ public class SecurityTests {
         
         @Bean
         public JavaMailSender mailSender() {
-//        	return this.new TestMailService();
-        	return new TestMailService();
-        }
-        
-        private class TestMailService implements JavaMailSender{
+            return new JavaMailSenderImpl();
+	    }
 
-    		@Override
-    		public void send(SimpleMailMessage simpleMessage) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-
-    		@Override
-    		public void send(SimpleMailMessage... simpleMessages) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-
-    		@Override
-    		public MimeMessage createMimeMessage() {
-    			// TODO Auto-generated method stub
-    			return null;
-    		}
-
-    		@Override
-    		public MimeMessage createMimeMessage(InputStream contentStream) throws MailException {
-    			// TODO Auto-generated method stub
-    			return null;
-    		}
-
-    		@Override
-    		public void send(MimeMessage mimeMessage) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-
-    		@Override
-    		public void send(MimeMessage... mimeMessages) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-
-    		@Override
-    		public void send(MimeMessagePreparator mimeMessagePreparator) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-
-    		@Override
-    		public void send(MimeMessagePreparator... mimeMessagePreparators) throws MailException {
-    			// TODO Auto-generated method stub
-    			
-    		}
-        	
-        }
 	}
 	
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     
     @Autowired
 	private WebApplicationContext context;
