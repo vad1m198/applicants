@@ -49,7 +49,7 @@ public class MyUserDetailsService implements UserDetailsService {
                     .collect(Collectors.toList());
         }
 
-        CustomUser customUser = new CustomUser(user.getFirst_name() + " " + user.getLast_name(),
+        CustomUser customUser = new CustomUser(user.getFirstName() + " " + user.getLastName(),
                 user.getPassword(),grantList, user.getId());
         return customUser;
     }

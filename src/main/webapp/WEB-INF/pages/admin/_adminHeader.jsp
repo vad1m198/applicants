@@ -1,19 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  
-    <!-- div  style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
-        <c:if test="${pageContext.request.userPrincipal.name != null}">        
-		<a href="${pageContext.request.contextPath}/shoppingCartAnswers">Shopping Cart Answers</a>
-         &nbsp;|&nbsp;
-           <a href="${pageContext.request.contextPath}/logout">Logout</a>
- 
-        </c:if>
-        <c:if test="${pageContext.request.userPrincipal.name == null}">
-            <a href="${pageContext.request.contextPath}/login">Login</a>
-        </c:if>
-    </div -->
-    
 
 <div class="slds-context-bar">
   <div class="slds-context-bar__primary slds-context-bar__item--divider-right">
@@ -32,17 +19,20 @@
           </div>          
       </div>
       <span class="slds-context-bar__label-action slds-context-bar__app-name">
-        <span class="slds-truncate" title="{ props.appName || &#x27;App Name&#x27; }">Shopping Cart App</span>
+        <span class="slds-truncate" title="{ props.appName || &#x27;App Name&#x27; }">Admin Panel</span>
       </span>
     </div>
   </div>
   <nav class="slds-context-bar__secondary" role="navigation">
     <ul class="slds-grid">
       <li class="slds-context-bar__item">
-        <a href="${pageContext.request.contextPath}/logout" class="slds-context-bar__label-action">Logout</a>
+      <a href="${pageContext.request.contextPath}/admin/dashboard" class="slds-context-bar__label-action">Dashboard</a>        
       </li>
       <li class="slds-context-bar__item">
-      <a href="${pageContext.request.contextPath}/shopping-cart/shoppingCartAnswers" class="slds-context-bar__label-action">Shopping Cart Answers</a>        
+      <a href="${pageContext.request.contextPath}/admin/userForm" class="slds-context-bar__label-action">Create User</a>        
+      </li>
+      <li class="slds-context-bar__item">
+        <a href="${pageContext.request.contextPath}/logout" class="slds-context-bar__label-action">Logout</a>
       </li>
     </ul>
   </nav>

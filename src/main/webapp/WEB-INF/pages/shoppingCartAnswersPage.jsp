@@ -19,14 +19,14 @@
 <nav role="navigation" aria-label="Breadcrumbs">
     <ol class="slds-breadcrumb slds-list--horizontal slds-m-around--small">
         <li class="slds-breadcrumb__item slds-text-title--caps">
-            <a href="${pageContext.request.contextPath}/productList">Back to product list</a>
+            <a href="${pageContext.request.contextPath}/shopping-cart/productList">Back to product list</a>
         </li>
     </ol>
 </nav>
 
     <div class="slds-text-heading--medium slds-m-around--medium">Enter Shopping Cart Answers</div>
         <form:form class="slds-form--stacked slds-m-around--xx-large" method="POST" modelAttribute="answersForm"
-                   action="${pageContext.request.contextPath}/shoppingCartAnswers">
+                   action="${pageContext.request.contextPath}/shopping-cart/shoppingCartAnswers">
 
         <div class="slds-form-element">
             <label class="slds-form-element__label" for="bugs-area">Bugs</label>
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="slds-form-element">
-            <label class="slds-form-element__label" for="test-cases-area">Test Cases</label>
+            <label class="slds-form-element__label" for="test-cases-area">Ideas for tests</label>
             <div class="slds-form-element__control">
                 <form:textarea rows="5" id="test-cases-area" class="slds-textarea" path="testCases" />
             </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="slds-form-element">
             <div class="slds-button-group" role="group">
-                <button class="slds-button slds-button--neutral" type="submit" onclick="submitClickHandler(event)" formaction="${pageContext.request.contextPath}/shoppingCartAnswers?submit=true">Submit</button>
+                <button class="slds-button slds-button--neutral" type="submit" onclick="submitClickHandler(event)" formaction="${pageContext.request.contextPath}/shopping-cart/shoppingCartAnswers?submit=true">Submit</button>
                 <button class="slds-button slds-button--neutral" type="submit">Save</button>
                 <button class="slds-button slds-button--neutral" type="reset">Reset</button>
             </div>

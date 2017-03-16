@@ -1,6 +1,8 @@
 package org.dynamo.applicantsapp.entity;
 
 import javax.persistence.*;
+
+
 import java.util.Set;
 
 @Entity
@@ -10,9 +12,13 @@ public class UserRole {
 	private int id;
     private String role;
     private Set<User> users;
-    
+	
+	public UserRole() {
+	}
+	
 	@Id
     @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.TABLE)
     public int getId() {
 		return id;
 	}
@@ -34,5 +40,4 @@ public class UserRole {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-
 }

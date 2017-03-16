@@ -21,7 +21,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    
+    @Transactional
 	public Product getByCode(String code) {
 		return productRepository.findByCode(code);
 	}

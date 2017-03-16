@@ -38,7 +38,7 @@ public class MailServiceImpl {
 
                 String messageStr = "<h4>Bugs:</h4></br><p>" + answerInfo.getBugs() + "</p>";
                 messageStr += "<h4>Improvements:</h4></br><p>" + answerInfo.getImprovements() + "</p>";
-                messageStr += "<h4>Test cases:</h4></br><p>" + answerInfo.getTestCases() + "</p>";
+                messageStr += "<h4>Ideas:</h4></br><p>" + answerInfo.getTestCases() + "</p>";
                 mimeMessage.setContent(messageStr, "text/html");
                 mimeMessage.setSubject(userName + "'s answers for shopping cart app");
 

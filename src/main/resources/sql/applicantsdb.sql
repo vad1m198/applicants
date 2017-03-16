@@ -54,8 +54,8 @@ CREATE TABLE shopping_cart_answers
         ON DELETE NO ACTION
 )
 
-insert into users (first_name,last_name,email,password) 
-values ('Ivan', 'Ivanov', 'ivan.ivanov@test.com', 'qwerty')
+insert into users (first_name,last_name,email,password)
+values ('Ivan', 'Ivanov', 'ivan.ivanov@test.com', 'password')
 
 insert into user_roles (role) 
 values ('SHOPPING_CART_USER')

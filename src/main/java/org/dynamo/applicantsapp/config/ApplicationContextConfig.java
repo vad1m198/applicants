@@ -7,6 +7,7 @@ import javax.sql.DataSource;
  
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -156,12 +157,12 @@ public class ApplicationContextConfig {
     }
  
     // Hibernate Transaction Manager
-    @Autowired
-    @Bean(name = "transactionManager")
-    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
-
-        return transactionManager;
-    }
+//    @Autowired
+//    @Bean(name = "transactionManager")
+//    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+//        HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
+//
+//        return transactionManager;
+//    }
  
 }

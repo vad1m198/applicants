@@ -1,0 +1,198 @@
+package org.dynamo.applicantsapp.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
+import org.dynamo.applicantsapp.entity.User;
+import org.dynamo.applicantsapp.entity.UserRole;
+import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.dynamo.applicantsapp.model.UserInfo;
+import org.dynamo.applicantsapp.repos.ShoppingCartAnswerRepository;
+import org.dynamo.applicantsapp.service.UserRoleService;
+import org.dynamo.applicantsapp.service.UserService;
+import org.dynamo.applicantsapp.util.Utils;
+import org.dynamo.applicantsapp.validator.UserFormValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+@Controller
+public class AdminController {
+	
+    @Autowired
+    private UserFormValidator userFormValidator;
+    
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
+    private ShoppingCartAnswerRepository shoppingCartAnswerRepository;
+    
+    @InitBinder
+    public void myInitBinder(WebDataBinder dataBinder) {
+        Object target = dataBinder.getTarget();
+        if (target == null) {
+            return;
+        } else if (target.getClass() == UserFormInfo.class) {
+            dataBinder.setValidator(userFormValidator);
+        }
+    }
+ 
+	
+   @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
+   public String getDashboard(HttpServletRequest request, @RequestParam(value = "query", defaultValue = "") String query) {
+
+       List<User> users = null;
+       if(query.trim().length() > 0) {
+           users = userService.getByName(query);
+       } else {
+           users = userService.getAllUsers();
+       }
+
+	   request.getSession().removeAttribute("allUsers");
+	   request.getSession().setAttribute("allUsers", users);
+//       request.getSession().removeAttribute("query");
+//       request.getSession().setAttribute("query", query);
+	   return "admin/dashboardPage";
+   }
+   
+   @RequestMapping(value = "/admin/userForm", method = RequestMethod.GET)
+   public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
+	   UserFormInfo info = null;
+	   if(!id.isEmpty()) {
+		   User user = null;
+		   Integer idInt = null;
+		   try {
+			   idInt = Integer.parseInt(id);
+		   } catch (NumberFormatException nfe) {
+			   nfe.printStackTrace();
+		   }
+
+		   if (idInt != null) {
+
+			   user = userService.getById(idInt);
+			   if (user != null) {
+				   info = new UserFormInfo();
+				   info.setUserInfo(new UserInfo(user));
+				   List<UserRole> roles = userRoleService.getAllRoles();
+				   info.setRolesInfo(roles);
+
+				   List<Integer> roleIds = user.getRoles()
+						   .stream()
+						   .map(UserRole::getId)
+						   .collect(Collectors.toList());
+
+				   info.setRolesIds(roleIds);
+			   }
+		   }
+
+		   if(user == null) {
+		       return "/404";
+           }
+	   }
+
+	   if(info == null) {
+		   info = new UserFormInfo();
+		   info.setUserInfo(new UserInfo());
+		   List<UserRole> roles = userRoleService.getAllRoles();
+		   info.setRolesInfo(roles);
+	   }
+
+	   model.addAttribute("userFormInfo",info);
+	   
+	   return "admin/userFormPage";
+   }
+   
+   @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
+   public String saveUser(HttpServletRequest request, //
+           Model model, //
+           @ModelAttribute("userFormInfo") @Validated UserFormInfo info,
+           BindingResult result, //
+           final RedirectAttributes redirectAttributes) {	   
+       // If has Errors.
+       if (result.hasErrors()) {
+    	   info.setValid(false);
+
+           // Forward to reenter customer info.
+    	   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
+    		   List<UserRole> roles = userRoleService.getAllRoles();
+			   info.setRolesInfo(roles);
+		   }
+           return "admin/userFormPage";
+       }
+       info.setValid(true);
+//       System.out.println("info.getRolesInfo() >>>>>>>>>>>>>>>>>>>>>>>> " + info.getRolesInfo());
+	   User user = new User(info);	   
+	   List<UserRole> roles = new ArrayList<UserRole>();	   
+	   for(int i: info.getRolesIds()) {
+		   UserRole role = userRoleService.getRoleById(i);
+		   if (role != null) {
+			   roles.add(role);
+		   }
+	   }
+	   
+	   user.setRoles(roles);
+	   
+//	   System.out.println("Email: " + user.getEmail());
+//	   System.out.println("FirstName: " + user.getFirstName());
+//	   System.out.println("LastName: " + user.getLastName());
+//	   System.out.println("Id: " + user.getId());
+//	   System.out.println("Password: " + user.getPassword());
+//
+//	   System.out.println("roles >>>> ");
+//
+//	   for(UserRole r: user.getRoles()) {
+//		   System.out.println("Id: " + r.getId());
+//		   System.out.println("Role: " + r.getRole());
+//	   }
+	   
+	   userService.save(user);
+	   
+	   return "redirect:view?id=" + user.getId();
+   }
+
+	@RequestMapping(value = "/admin/view", method = RequestMethod.GET)
+	public String getUserDetails(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
+
+		if(!id.isEmpty()) {
+			Integer idInt = null;
+			try {
+				idInt = Integer.parseInt(id);
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+			}
+			if (idInt != null) {
+				User user = userService.getById(idInt);
+				if (user != null) {
+
+                    List<ShoppingCartAnswer> answers = shoppingCartAnswerRepository.findByApplicantId(idInt);
+
+					model.addAttribute("userDetailsInfo",user);
+                    model.addAttribute("answersInfo",answers);
+					return "admin/userDetailsPage";
+				}
+			}
+		}
+
+		return "/404";
+	}
+}
