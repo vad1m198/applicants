@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.dynamo.applicantsapp.controller.AdminController;
 import org.dynamo.applicantsapp.entity.User;
+import org.dynamo.applicantsapp.entity.UserRole;
+import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +15,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,6 +35,9 @@ public class AdminControllerTest {
 
     @Mock
     private UserService mockUserService;
+
+    @Mock
+    private UserRoleService mockUserRoleService;
             
     @Mock
     private View mockView;
@@ -63,6 +73,62 @@ public class AdminControllerTest {
 	        .andExpect(status().isOk())        
 	        .andExpect(request().sessionAttribute("allUsers", expectedUsers))
 	        .andExpect(view().name("admin/dashboardPage"));
+    }
+
+    @Test
+    public void whenGetUserFormThenEmptyUserFormInfoShouldBeReturned() throws Exception {
+        List<UserRole> expectedUserRoles = Collections.singletonList(new UserRole());
+        when(mockUserRoleService.getAllRoles()).thenReturn(expectedUserRoles);
+
+        MvcResult result = mockMvc.perform(get("/admin/userForm"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/userFormPage"))
+                .andReturn();
+
+        UserFormInfo info = (UserFormInfo) result.getModelAndView().getModel().get("userFormInfo");
+        assertEquals(info.getRolesInfo(), expectedUserRoles);
+        assertEquals(info.getUserInfo().getId(), 0);
+        assertNull(info.getUserInfo().getEmail());
+        assertNull(info.getUserInfo().getFirstName());
+        assertNull(info.getUserInfo().getLastName());
+        assertNull(info.getUserInfo().getPassword());
+        assertNull(info.getRolesIds());
+    }
+
+    @Test
+    public void whenGetUserFormWithValidUserIdThenUserFormInfoForUserShouldBeReturned() throws Exception {
+        UserRole role = new UserRole();
+        role.setId(1);
+        role.setRole("ADMIN");
+        List<UserRole> expectedUserRoles = Collections.singletonList(role);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("test@test.com");
+        user.setFirstName("fname");
+        user.setLastName("lname");
+        user.setPassword("pass");
+        user.setRoles(expectedUserRoles);
+
+
+        when(mockUserRoleService.getAllRoles()).thenReturn(expectedUserRoles);
+        when(mockUserService.getById(1)).thenReturn(user);
+
+        MvcResult result = mockMvc.perform(get("/admin/userForm?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/userFormPage"))
+                .andReturn();
+
+        UserFormInfo info = (UserFormInfo) result.getModelAndView().getModel().get("userFormInfo");
+        assertEquals(info.getRolesInfo(), expectedUserRoles);
+        assertEquals(info.getUserInfo().getId(), 1);
+        assertEquals(info.getUserInfo().getEmail(), "test@test.com");
+        assertEquals(info.getUserInfo().getFirstName(), "fname");
+        assertEquals(info.getUserInfo().getLastName(), "lname");
+        assertEquals(info.getUserInfo().getPassword(), "pass");
+        assertEquals(info.getRolesIds().stream().map(Object::toString).reduce("", String::concat)
+                , "1");
+
     }
 	
 }
