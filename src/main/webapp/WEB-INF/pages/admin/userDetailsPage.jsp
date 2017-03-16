@@ -38,11 +38,22 @@
                 </dl>
             </div>
         </div>
-        <div class="slds-button-group" role="group">
+        <div class="slds-button-group slds-m-top--medium" role="group">
             <a class="slds-button slds-button--neutral" href="${pageContext.request.contextPath}/admin/userForm?id=${userDetailsInfo.id}">Edit</a>
-            <%--a class="slds-button slds-button--neutral" href="${pageContext.request.contextPath}/shopping-cart/shoppingCartCustomer">Show answers</a--%>
+        </div>
+        <div class="slds-text-longform slds-m-top--medium">
+            <c:forEach items="${answersInfo}" var="info" varStatus="loop">
+                <h3 class="slds-text-heading--small">Bugs</h3>
+                <p>${info.bugs}</p>
+                <h3 class="slds-text-heading--small">Ideas</h3>
+                <p>${info.testCases}</p>
+                <h3 class="slds-text-heading--small">Improvements</h3>
+                <p>${info.improvements}</p>
+            </c:forEach>
         </div>
     </div>
+
+
 
 </div>
 </body>

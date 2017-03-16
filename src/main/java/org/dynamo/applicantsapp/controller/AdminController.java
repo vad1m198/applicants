@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.UserFormInfo;
 import org.dynamo.applicantsapp.model.UserInfo;
+import org.dynamo.applicantsapp.repos.ShoppingCartAnswerRepository;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.dynamo.applicantsapp.util.Utils;
@@ -41,6 +43,9 @@ public class AdminController {
     
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    private ShoppingCartAnswerRepository shoppingCartAnswerRepository;
     
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
@@ -65,6 +70,7 @@ public class AdminController {
    public String getUserForm(HttpServletRequest request, Model model, @RequestParam(value = "id", defaultValue = "") String id) {
 	   UserFormInfo info = null;
 	   if(!id.isEmpty()) {
+		   User user = null;
 		   Integer idInt = null;
 		   try {
 			   idInt = Integer.parseInt(id);
@@ -74,7 +80,7 @@ public class AdminController {
 
 		   if (idInt != null) {
 
-			   User user = userService.getById(idInt);
+			   user = userService.getById(idInt);
 			   if (user != null) {
 				   info = new UserFormInfo();
 				   info.setUserInfo(new UserInfo(user));
@@ -83,14 +89,16 @@ public class AdminController {
 
 				   List<Integer> roleIds = user.getRoles()
 						   .stream()
-						   .map(r -> r.getId())
+						   .map(UserRole::getId)
 						   .collect(Collectors.toList());
 
 				   info.setRolesIds(roleIds);
 			   }
-		   } else {
-			   return "/404";
 		   }
+
+		   if(user == null) {
+		       return "/404";
+           }
 	   }
 
 	   if(info == null) {
@@ -166,7 +174,11 @@ public class AdminController {
 			if (idInt != null) {
 				User user = userService.getById(idInt);
 				if (user != null) {
+
+                    List<ShoppingCartAnswer> answers = shoppingCartAnswerRepository.findByApplicantId(idInt);
+
 					model.addAttribute("userDetailsInfo",user);
+                    model.addAttribute("answersInfo",answers);
 					return "admin/userDetailsPage";
 				}
 			}

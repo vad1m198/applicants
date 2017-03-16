@@ -30,7 +30,7 @@ public class UserService {
     
     @Transactional
     public User getById(Integer id) {
-        return userRepository.getOne(id);
+        return userRepository.findOne(id);
     }
     
     @Transactional
