@@ -12,8 +12,8 @@ public class UserInfo {
 	
 	public UserInfo(User user) {
 		this.id = user.getId();
-		this.firstName = user.getFirst_name();
-		this.lastName = user.getLast_name();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 	}

@@ -23,9 +23,9 @@
             <div class="slds-tile__detail slds-text-body--medium">
                 <dl class="slds-list--horizontal slds-wrap">
                     <dt class="slds-item--label slds-text-color--weak slds-truncate" title="First Name">First Name:</dt>
-                    <dd class="slds-item--detail slds-truncate">${userDetailsInfo.first_name}</dd>
+                    <dd class="slds-item--detail slds-truncate">${userDetailsInfo.firstName}</dd>
                     <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Last Name">Last Name:</dt>
-                    <dd class="slds-item--detail slds-truncate">${userDetailsInfo.last_name}</dd>
+                    <dd class="slds-item--detail slds-truncate">${userDetailsInfo.lastName}</dd>
                     <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Email">Email:</dt>
                     <dd class="slds-item--detail slds-truncate">${userDetailsInfo.email}</dd>
                     <dt class="slds-item--label slds-text-color--weak slds-truncate" title="Roles">Roles:</dt>

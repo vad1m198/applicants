@@ -22,6 +22,13 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @Transactional
+    public List<User> getByName(String name) {
+//        return userRepository.findByNameContaining(name);
+        //return userRepository.findByFirstNameIgnoreCaseContaining(name);
+        return userRepository.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(name, name);
+    }
     
     @Transactional
     public List<User> getAllByEmail(String email) {

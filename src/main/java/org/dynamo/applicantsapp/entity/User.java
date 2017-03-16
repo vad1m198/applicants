@@ -14,8 +14,8 @@ import java.util.List;
 public class User {
  
     private int id;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String email;
 	private String password;
 	
@@ -27,8 +27,8 @@ public class User {
 	 
 	public User(UserFormInfo info) {
 		this.id = info.getUserInfo().getId();
-		this.first_name = info.getUserInfo().getFirstName().trim();
-		this.last_name = info.getUserInfo().getLastName().trim();
+		this.firstName = info.getUserInfo().getFirstName().trim();
+		this.lastName = info.getUserInfo().getLastName().trim();
 		this.email = info.getUserInfo().getEmail().trim();
 		this.password = info.getUserInfo().getPassword().trim();
 	}
@@ -54,18 +54,18 @@ public class User {
 		this.id = id;
 	}
     @Column(name = "first_name")
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	@Column(name = "last_name")
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	
 	@Column(name = "email")

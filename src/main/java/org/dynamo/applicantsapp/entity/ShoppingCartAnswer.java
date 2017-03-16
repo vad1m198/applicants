@@ -48,10 +48,6 @@ public class ShoppingCartAnswer  implements Serializable {
 	public void setImprovements(String improvements) {
 		this.improvements = improvements;
 	}
-
-
-	
-	
 	
     @Column(name = "applicant_id")
 	public int getApplicantId() {

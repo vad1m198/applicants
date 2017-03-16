@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page session="true"%>
  <!-- allUsers -->
 <html>
@@ -12,7 +13,7 @@
 	<div class="slds">
 		<jsp:include page="_adminHeader.jsp" />
 		
-		<div class="slds-text-heading--medium slds-m-around--small">Dashboard Page</div>
+		<%--div class="slds-text-heading--medium slds-m-around--small">Dashboard Page</div--%>
 		
 	   <c:if test="${empty allUsers}">
 	       <div class="slds-text-heading--small slds-m-around--medium">There are no Users</div>   
@@ -20,6 +21,23 @@
 	   
 	   <c:if test="${ not empty allUsers}">
 	       <div class="dashboard-table-container">
+			   <form:form class="slds-m-around--medium slds-align--absolute-center slds-form--inline" method="GET"
+						  action="${pageContext.request.contextPath}/admin/dashboard">
+			   <div class="slds-form-element">
+				   <label class="slds-form-element__label" for="search">Search:</label>
+				   <div class="slds-form-element__control">
+                       <input type="text" id ="search" class="slds-input" name="query"
+                              value="${param['query']}">
+				   </div>
+			   </div>
+               <div class="slds-form-element">
+                   <button type="submit" class="slds-button slds-button--neutral">Search</button>
+               </div>
+			   </form:form>
+		   </div>
+
+
+
 		    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
 			  <thead>
 			    <tr class="slds-text-title--caps">
@@ -44,10 +62,10 @@
 			  <c:forEach items="${allUsers}" var="user">
 			    <tr>
 			      <td data-label="First Name">
-			        <div class="slds-truncate" title="${user.first_name}">${user.first_name}</div>
+			        <div class="slds-truncate" title="${user.firstName}">${user.firstName}</div>
 			      </td>
 			      <td data-label="Last Name">
-			        <div class="slds-truncate" title="${user.last_name}">${user.last_name}</div>
+			        <div class="slds-truncate" title="${user.lastName}">${user.lastName}</div>
 			      </td>
 			      <td data-label="Email">
 			        <div class="slds-truncate" title="${user.email}">${user.email}</div>

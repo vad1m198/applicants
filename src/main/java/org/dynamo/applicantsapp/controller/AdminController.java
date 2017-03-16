@@ -59,10 +59,19 @@ public class AdminController {
  
 	
    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-   public String getDashboard(HttpServletRequest request) {
-	   List<User> users = userService.getAllUsers();
+   public String getDashboard(HttpServletRequest request, @RequestParam(value = "query", defaultValue = "") String query) {
+
+       List<User> users = null;
+       if(query.trim().length() > 0) {
+           users = userService.getByName(query);
+       } else {
+           users = userService.getAllUsers();
+       }
+
 	   request.getSession().removeAttribute("allUsers");
 	   request.getSession().setAttribute("allUsers", users);
+//       request.getSession().removeAttribute("query");
+//       request.getSession().setAttribute("query", query);
 	   return "admin/dashboardPage";
    }
    
@@ -144,8 +153,8 @@ public class AdminController {
 	   user.setRoles(roles);
 	   
 //	   System.out.println("Email: " + user.getEmail());
-//	   System.out.println("FirstName: " + user.getFirst_name());
-//	   System.out.println("LastName: " + user.getLast_name());
+//	   System.out.println("FirstName: " + user.getFirstName());
+//	   System.out.println("LastName: " + user.getLastName());
 //	   System.out.println("Id: " + user.getId());
 //	   System.out.println("Password: " + user.getPassword());
 //
