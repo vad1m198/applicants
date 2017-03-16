@@ -15,30 +15,28 @@
 		
 		<%--div class="slds-text-heading--medium slds-m-around--small">Dashboard Page</div--%>
 		
+	   <form:form class="slds-m-around--medium slds-align--absolute-center slds-form--inline" method="GET"
+				  action="${pageContext.request.contextPath}/admin/dashboard">
+	   <div class="slds-form-element">
+		   <label class="slds-form-element__label" for="search">Search:</label>
+		   <div class="slds-form-element__control">
+                     <input type="text" id ="search" class="slds-input" name="query"
+                            value="${param['query']}">
+		   </div>
+	   </div>
+             <div class="slds-form-element">
+                 <button type="submit" class="slds-button slds-button--neutral">Search</button>
+             </div>
+	   </form:form>
+		
 	   <c:if test="${empty allUsers}">
 	       <div class="slds-text-heading--small slds-m-around--medium">There are no Users</div>   
 	   </c:if>
 	   
 	   <c:if test="${ not empty allUsers}">
 	       <div class="dashboard-table-container">
-			   <form:form class="slds-m-around--medium slds-align--absolute-center slds-form--inline" method="GET"
-						  action="${pageContext.request.contextPath}/admin/dashboard">
-			   <div class="slds-form-element">
-				   <label class="slds-form-element__label" for="search">Search:</label>
-				   <div class="slds-form-element__control">
-                       <input type="text" id ="search" class="slds-input" name="query"
-                              value="${param['query']}">
-				   </div>
-			   </div>
-               <div class="slds-form-element">
-                   <button type="submit" class="slds-button slds-button--neutral">Search</button>
-               </div>
-			   </form:form>
-		   </div>
 
-
-
-		    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+			  <table class="slds-table slds-table--bordered slds-table--cell-buffer">
 			  <thead>
 			    <tr class="slds-text-title--caps">
 			      <th scope="col">
@@ -85,12 +83,8 @@
 			    </c:forEach>
 			  </tbody>
 			</table>
-		</div>
-	   </c:if>  
-	
-	    
-	    
-	    
+		   </div>
+		   </c:if>	    
     </div>
 </body>
 </html>

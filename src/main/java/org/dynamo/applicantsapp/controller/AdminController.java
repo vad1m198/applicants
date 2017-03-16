@@ -2,7 +2,6 @@ package org.dynamo.applicantsapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,11 @@ import org.dynamo.applicantsapp.model.UserInfo;
 import org.dynamo.applicantsapp.repos.ShoppingCartAnswerRepository;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
-import org.dynamo.applicantsapp.util.Utils;
 import org.dynamo.applicantsapp.validator.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -63,15 +60,13 @@ public class AdminController {
 
        List<User> users = null;
        if(query.trim().length() > 0) {
-           users = userService.getByName(query);
+           users = userService.getByName(query.trim());
        } else {
            users = userService.getAllUsers();
        }
 
 	   request.getSession().removeAttribute("allUsers");
 	   request.getSession().setAttribute("allUsers", users);
-//       request.getSession().removeAttribute("query");
-//       request.getSession().setAttribute("query", query);
 	   return "admin/dashboardPage";
    }
    
