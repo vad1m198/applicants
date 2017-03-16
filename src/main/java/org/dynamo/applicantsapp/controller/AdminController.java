@@ -59,12 +59,11 @@ public class AdminController {
    public String getDashboard(HttpServletRequest request, @RequestParam(value = "query", defaultValue = "") String query) {
 
        List<User> users = null;
-       if(query.trim().length() > 0) {
+       if(query.trim().length() > 0) {    	  
            users = userService.getByName(query.trim());
        } else {
            users = userService.getAllUsers();
-       }
-
+       }      
 	   request.getSession().removeAttribute("allUsers");
 	   request.getSession().setAttribute("allUsers", users);
 	   return "admin/dashboardPage";
