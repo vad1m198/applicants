@@ -1,8 +1,8 @@
 CREATE TABLE users
 (
     id serial NOT NULL,
-    firstName character varying(36) NOT NULL,
-    lastName character varying(36) NOT NULL,
+    first_name character varying(36) NOT NULL,
+    last_name character varying(36) NOT NULL,
     email character varying(50) NOT NULL,
     password character varying(16) NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id),
@@ -54,7 +54,7 @@ CREATE TABLE shopping_cart_answers
         ON DELETE NO ACTION
 )
 
-insert into users (firstName,lastName,email,password)
+insert into users (first_name,last_name,email,password)
 values ('Ivan', 'Ivanov', 'ivan.ivanov@test.com', 'password')
 
 insert into user_roles (role) 
