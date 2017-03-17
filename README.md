@@ -10,6 +10,9 @@ create `.env` file and place data base environment variables
 `JDBC_DATABASE_URL`
 `JDBC_DATABASE_USERNAME`
 `JDBC_DATABASE_PASSWORD`
+`GMAIL_USER_NAME`
+`GMAIL_USER_PASSWORD`
+`MAIL_RECIPIENTS`
 
 to compile run `mvn package`
 to run heroku app local `heroku local -f Procfile.local`
