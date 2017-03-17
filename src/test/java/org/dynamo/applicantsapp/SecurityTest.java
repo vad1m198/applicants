@@ -21,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -196,7 +197,4 @@ public class SecurityTest {
 	        .andExpect(status().isOk())
 	        .andExpect(view().name("productListPage"));
     }
-    
-    
-	
 }

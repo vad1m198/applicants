@@ -28,8 +28,7 @@ public class UserFormValidator implements Validator {
  
     @Override
     public void validate(Object target, Errors errors) {
-    	UserFormInfo userFormInfo = (UserFormInfo) target;
- 
+    	UserFormInfo userFormInfo = (UserFormInfo) target; 
         // Check the fields of CustomerInfo class.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.firstName", "NotEmpty.userForm.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.lastName", "NotEmpty.userForm.required");
@@ -49,12 +48,16 @@ public class UserFormValidator implements Validator {
         } else if(userFormInfo.getUserInfo().getEmail().length() > 50){
         	errors.rejectValue("userInfo.email", "Length.userForm.Email");
         }
+
+    	System.out.println(userService);
         
         List<User> users = userService.getAllByEmail(userFormInfo.getUserInfo().getEmail());
         
+
+
+        
         if(!users.isEmpty()){
         	for(User u: users) {
-//        		System.out.println(u.getId() + " : " + userFormInfo.getUserInfo().getId());
         		if(u.getId() != userFormInfo.getUserInfo().getId()) {
         			errors.rejectValue("userInfo.email", "Pattern.userForm.emailExist");
         			break;

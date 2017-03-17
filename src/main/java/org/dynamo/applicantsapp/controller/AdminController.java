@@ -117,15 +117,14 @@ public class AdminController {
    }
    
    @RequestMapping(value = "/admin/userForm", method = RequestMethod.POST)
-   public String saveUser(HttpServletRequest request, //
-           Model model, //
+   public String saveUser(HttpServletRequest request,
+           Model model,
            @ModelAttribute("userFormInfo") @Validated UserFormInfo info,
-           BindingResult result, //
+           BindingResult result,
            final RedirectAttributes redirectAttributes) {	   
        // If has Errors.
        if (result.hasErrors()) {
     	   info.setValid(false);
-
            // Forward to reenter customer info.
     	   if(info.getRolesInfo() == null || info.getRolesInfo().isEmpty()) {
     		   List<UserRole> roles = userRoleService.getAllRoles();
@@ -134,33 +133,16 @@ public class AdminController {
            return "admin/userFormPage";
        }
        info.setValid(true);
-//       System.out.println("info.getRolesInfo() >>>>>>>>>>>>>>>>>>>>>>>> " + info.getRolesInfo());
 	   User user = new User(info);	   
-	   List<UserRole> roles = new ArrayList<UserRole>();	   
+	   List<UserRole> roles = new ArrayList<UserRole>();	
 	   for(int i: info.getRolesIds()) {
 		   UserRole role = userRoleService.getRoleById(i);
 		   if (role != null) {
 			   roles.add(role);
 		   }
-	   }
-	   
-	   user.setRoles(roles);
-	   
-//	   System.out.println("Email: " + user.getEmail());
-//	   System.out.println("FirstName: " + user.getFirstName());
-//	   System.out.println("LastName: " + user.getLastName());
-//	   System.out.println("Id: " + user.getId());
-//	   System.out.println("Password: " + user.getPassword());
-//
-//	   System.out.println("roles >>>> ");
-//
-//	   for(UserRole r: user.getRoles()) {
-//		   System.out.println("Id: " + r.getId());
-//		   System.out.println("Role: " + r.getRole());
-//	   }
-	   
-	   userService.save(user);
-	   
+	   }	   
+	   user.setRoles(roles);	   
+	   userService.save(user);	   
 	   return "redirect:view?id=" + user.getId();
    }
 

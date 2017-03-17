@@ -7,26 +7,29 @@ import org.dynamo.applicantsapp.controller.AdminController;
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.UserFormInfo;
-import org.dynamo.applicantsapp.model.UserInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.web.servlet.View;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
+import org.springframework.validation.BindingResult;
+
 
 
 public class AdminControllerTest {
@@ -36,6 +39,9 @@ public class AdminControllerTest {
 
     @Mock
     private UserService mockUserService;
+    
+    @Mock
+    private BindingResult mockBindingResult;
 
     @Mock
     private UserRoleService mockUserRoleService;
@@ -147,32 +153,42 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("/404"));
     }
-
-//    @Test
-//    public void whenPOstUserFormWithNotNumberUserIdThen404ShouldBeReturned() throws Exception {
-//        UserFormInfo info = new UserFormInfo();
-//
-//        UserRole role = new UserRole();
-//        role.setId(1);
-//        role.setRole("ADMIN");
-//        List<UserRole> expectedUserRoles = Collections.singletonList(role);
-//
-//        info.setRolesInfo(expectedUserRoles);
-//
-//        UserInfo uInfo = new UserInfo();
-//        uInfo.setEmail("test@test.com");
-//        uInfo.setPassword("pass");
-//        uInfo.setFirstName("fname");
-//        uInfo.setLastName("lname");
-//        uInfo.setId(1);
-//
-//        info.setUserInfo(uInfo);
-//
-//        info.setRolesIds(Collections.singletonList(1));
-//
-//        mockMvc.perform(post("/admin/userForm").sessionAttr("userFormInfo", info))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("/404"));
-//    }
-	
+    
+    @Test
+    public void whenPostUserFormHasNoErrorsThenSaveUserAndRedirectToView() throws Exception {
+    	
+		UserRole role = new UserRole();
+		role.setId(1);
+		role.setRole("ADMIN");
+		List<UserRole> expectedUserRoles = Collections.singletonList(role);
+    	
+    	when(mockBindingResult.hasErrors()).thenReturn(Boolean.FALSE);
+    	when(mockUserRoleService.getAllRoles()).thenReturn(expectedUserRoles);
+    	when(mockUserRoleService.getRoleById(1)).thenReturn(role);
+    					  
+		RequestBuilder request = post("/admin/userForm")
+			.param("userInfo.id", "0")
+			.param("userInfo.firstName", "fname")
+			.param("userInfo.lastName","lname")
+			.param("userInfo.email","test@test.com")
+			.param("userInfo.password", "qwerty")
+			.param("rolesIds", "1")
+			.param("userFormInfo.rolesInfo", expectedUserRoles.toString());
+		
+		mockMvc
+		.perform(request)
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(view().name("redirect:view?id=0"));
+				
+		ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
+		verify(mockUserService).save(argument.capture());
+		assertEquals(0, argument.getValue().getId());
+		assertEquals("fname", argument.getValue().getFirstName());
+		assertEquals("lname", argument.getValue().getLastName());
+		assertEquals("test@test.com", argument.getValue().getEmail());
+		assertEquals("qwerty", argument.getValue().getPassword());
+		assertEquals(expectedUserRoles, argument.getValue().getRoles());
+	  }
 }
+
