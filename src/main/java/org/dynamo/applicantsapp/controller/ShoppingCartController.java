@@ -2,6 +2,7 @@ package org.dynamo.applicantsapp.controller;
 
 import java.util.List;
 
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dynamo.applicantsapp.authentication.CustomUser;
@@ -184,7 +185,7 @@ public class ShoppingCartController {
    
    @RequestMapping(value = {"/shopping-cart/shoppingCartAnswers"}, method = RequestMethod.POST)
    public String shoppingCartAnswersPost(HttpServletRequest request, Model model,
-		   @ModelAttribute("answersForm") ShoppingCartAnswer answersForm, Authentication authentication) {
+		   @ModelAttribute("answersForm") ShoppingCartAnswer answersForm, Authentication authentication) throws AddressException {
    		ShoppingCartAnswer answerInfo = Utils.getAnswersInSession(request);
    		answerInfo.setBugs(answersForm.getBugs());
 	   	answerInfo.setImprovements(answersForm.getImprovements());
