@@ -7,6 +7,7 @@ import org.dynamo.applicantsapp.controller.AdminController;
 import org.dynamo.applicantsapp.entity.User;
 import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.UserFormInfo;
+import org.dynamo.applicantsapp.model.UserInfo;
 import org.dynamo.applicantsapp.service.UserRoleService;
 import org.dynamo.applicantsapp.service.UserService;
 import org.junit.Before;
@@ -130,5 +131,48 @@ public class AdminControllerTest {
                 , "1");
 
     }
+
+    @Test
+    public void whenGetUserFormWithUnexistingUserIdThen404ShouldBeReturned() throws Exception {
+        when(mockUserService.getById(1)).thenReturn(null);
+
+        mockMvc.perform(get("/admin/userForm?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/404"));
+    }
+
+    @Test
+    public void whenGetUserFormWithNotNumberUserIdThen404ShouldBeReturned() throws Exception {
+        mockMvc.perform(get("/admin/userForm?id=test"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/404"));
+    }
+
+//    @Test
+//    public void whenPOstUserFormWithNotNumberUserIdThen404ShouldBeReturned() throws Exception {
+//        UserFormInfo info = new UserFormInfo();
+//
+//        UserRole role = new UserRole();
+//        role.setId(1);
+//        role.setRole("ADMIN");
+//        List<UserRole> expectedUserRoles = Collections.singletonList(role);
+//
+//        info.setRolesInfo(expectedUserRoles);
+//
+//        UserInfo uInfo = new UserInfo();
+//        uInfo.setEmail("test@test.com");
+//        uInfo.setPassword("pass");
+//        uInfo.setFirstName("fname");
+//        uInfo.setLastName("lname");
+//        uInfo.setId(1);
+//
+//        info.setUserInfo(uInfo);
+//
+//        info.setRolesIds(Collections.singletonList(1));
+//
+//        mockMvc.perform(post("/admin/userForm").sessionAttr("userFormInfo", info))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("/404"));
+//    }
 	
 }
