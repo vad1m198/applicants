@@ -1,17 +1,8 @@
 package org.dynamo.applicantsapp.util;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.dynamo.applicantsapp.entity.ShoppingCartAnswer;
-import org.dynamo.applicantsapp.entity.User;
-import org.dynamo.applicantsapp.entity.UserRole;
 import org.dynamo.applicantsapp.model.CartInfo;
-import org.dynamo.applicantsapp.model.UserFormInfo;
-import org.dynamo.applicantsapp.model.UserInfo;
-
 public class Utils {
  
     // Products in Cart, stored in Session.

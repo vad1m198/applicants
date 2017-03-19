@@ -19,7 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -33,8 +32,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages={"org.dynamo.applicantsapp"})
 @PropertySources({
-    //@PropertySource("classpath:datasource-cfg.properties"),
-    //@PropertySource("classpath:mail-cfg.properties")
 	@PropertySource("file:src/main/resources/datasource-cfg.properties"),
 	@PropertySource("file:src/main/resources/mail-cfg.properties")
 	
@@ -45,11 +42,6 @@ public class ApplicationContextConfig {
     // and stores all the properties loaded by the @PropertySource
     @Autowired
     private Environment env;
- 
-//    @Autowired
-//    private UserInfoDAO userInfoDAO;
-
-
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {

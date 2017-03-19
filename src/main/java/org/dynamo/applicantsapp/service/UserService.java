@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 @Repository
 public class UserService {
@@ -25,8 +23,6 @@ public class UserService {
 
     @Transactional
     public List<User> getByName(String name) {
-//        return userRepository.findByNameContaining(name);
-        //return userRepository.findByFirstNameIgnoreCaseContaining(name);
         return userRepository.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(name, name);
     }
     
