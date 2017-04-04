@@ -1,0 +1,67 @@
+.sl-login-container {
+	width: 320px;
+	margin: auto;
+	margin-top: 10%;
+}
+
+.customer-info-container {
+	width: 350px;
+}
+
+.slds-card {
+	width: 300px;
+}
+
+.sl-products-container, 
+.sl-cart-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.quantity {
+    width: 80px
+}
+
+.quantity.error {
+    border: 1px solid red
+}
+
+.error-message {
+    color: red
+}
+
+.sl-summary {
+	width: 50%
+}
+
+.dashboard-table-container {
+	max-width: 1250px;
+	margin:auto;
+}
+
+.roles-container {
+	margin: 15px 0;
+	display: flex;
+	flex-direction: column;
+	padding-left: 15px;
+}
+
+.roles-container input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+.user-details-container {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+.user-details-container > div,
+.confirmation-container,
+.answers-form-container{
+	width: 400px;
+}
+
+.answers-form-container{
+    width: 600px;
+}
