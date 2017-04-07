@@ -9,9 +9,11 @@ import javax.validation.Valid;
 import org.dynamo.dao.ShoppingCartAnswerDao;
 import org.dynamo.dao.UserDao;
 import org.dynamo.dao.UserRoleDao;
+import org.dynamo.entity.CustomEmail;
 import org.dynamo.entity.User;
 import org.dynamo.entity.UserRole;
 import org.dynamo.model.UserFormInfo;
+import org.dynamo.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ public class AdminController {
 	
 	@Autowired
 	private ShoppingCartAnswerDao answerdao;
+	
+	@Autowired
+	private MailService mailservice;
 	
 	@RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
 	public String getDashboard(Model model,@ModelAttribute("userSearch") User user) {
@@ -62,9 +67,9 @@ public class AdminController {
 			Model model) {
 		User user = null;
 		
-		if(id > 0) {
+//		if(id > 0) {
 			user = userDao.findUserById(id);
-		}
+//		}
 		
 		UserFormInfo info = new UserFormInfo();		
 		List<UserRole> roles = userRoleDao.getAllRoles();
@@ -110,7 +115,9 @@ public class AdminController {
 			if(info.getUser().getId() > 0) {			
 				userId = userDao.updateUser(info.getUser().getId(), user);
 			} else {
-				userId = userDao.createUser(user);	
+				userId = userDao.createUser(user);
+				CustomEmail mail = new CustomEmail(user);
+				mailservice.sendEmail(mail);
 			}
 		} catch(DuplicateKeyException e) {
 			result.rejectValue("user.email", "user.email", "A user already exists for this email.");

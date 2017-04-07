@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AuthController {
 
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
-	public String getRootPage(Model model) {
+	public String getRootPage(Model model) {		
+		
 		return "redirect:/login";
 	}
 	
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
 	public String getLoginPage(Model model, Principal principal) {
+		
 	    if(principal != null) {
 	        return "redirect:/welcome";
         }

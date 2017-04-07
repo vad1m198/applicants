@@ -23,6 +23,7 @@
       <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
       <spring.security.version>4.2.2.RELEASE</spring.security.version>
       <postgresql.version>42.0.0</postgresql.version>
+      <jersey.verison>1.19.3</jersey.verison>
   </properties>
     
     
@@ -145,6 +146,22 @@
 	    <groupId>org.postgresql</groupId>
 	    <artifactId>postgresql</artifactId>
 	    <version>${postgresql.version}</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>com.sun.jersey</groupId>
+	  <artifactId>jersey-core</artifactId>
+	  <version>${jersey.verison}</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.sun.jersey</groupId>
+	  <artifactId>jersey-client</artifactId>
+	  <version>${jersey.verison}</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.sun.jersey.contribs</groupId>
+	  <artifactId>jersey-multipart</artifactId>
+	  <version>${jersey.verison}</version>
 	</dependency>
 		
   </dependencies>
