@@ -25,22 +25,18 @@ public class MailServiceImpl implements MailService {
     public void sendEmail(CustomEmail email) {
     	Client client = Client.create();
     	
-    	final String DOMAIN_NAME = "";
-    	final String API_KEY = "";
-    	
-//		client.addFilter(new HTTPBasicAuthFilter("api", env.getProperty("MAILGUN_API_KEY")));
-//		WebResource webResource = client.resource("https://api.mailgun.net/v3/" + env.getProperty("MAILGUN_DOMAIN_NAME")
-//		    + "/messages");
+    	final String DOMAIN_NAME = env.getProperty("MAILGUN_DOMAIN");
+    	final String API_KEY =  env.getProperty("MAILGUN_API_KEY");
     	
     	client.addFilter(new HTTPBasicAuthFilter("api", API_KEY));
 		WebResource webResource = client.resource("https://api.mailgun.net/v3/" + DOMAIN_NAME
 		    + "/messages");
 		MultivaluedMapImpl formData = new MultivaluedMapImpl();
 		formData.add("from", "<mailgun@" + DOMAIN_NAME + ">");
-		formData.add("to", String.join(", ", email.getTo()));
+		formData.add("to", String.join(",", email.getTo()));
 		formData.add("subject", email.getSubject());
 		formData.add("html", email.getHTMLMessage());
-		String res = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class,
+		webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class,
 		    formData).toString();
 		         
     }

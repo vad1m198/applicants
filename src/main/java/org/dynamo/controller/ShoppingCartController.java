@@ -5,13 +5,17 @@ import javax.validation.Valid;
 
 import org.dynamo.dao.ProductDao;
 import org.dynamo.dao.ShoppingCartAnswerDao;
+import org.dynamo.entity.CustomEmail;
 import org.dynamo.entity.Product;
 import org.dynamo.entity.ShoppingCartAnswer;
 import org.dynamo.model.AuthenticationUser;
 import org.dynamo.model.CartInfo;
 import org.dynamo.model.CustomerInfo;
+import org.dynamo.service.MailService;
+import org.dynamo.util.MailUtils;
 import org.dynamo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +34,12 @@ public class ShoppingCartController {
 	
 	@Autowired
 	private ShoppingCartAnswerDao answersdao;
+	
+	@Autowired
+	private MailService mailservice;
+	
+	@Autowired
+    private Environment env;
 	
 	@RequestMapping(value = {"/list"}, method = RequestMethod.GET)
 	public String getProductList(Model model) {
@@ -136,6 +146,8 @@ public class ShoppingCartController {
     	long id = answersdao.saveAnswer(answer);
     	answer.setId(id);    	
     	if(answer.isSubmitted()) {
+			CustomEmail mail = MailUtils.getSubmitAnswersMail(answer, authentication.getName(), env.getProperty("ANSWERS_RECIPIENTS"));
+			mailservice.sendEmail(mail);
     		return "redirect:/shopping-cart/answers";
     	}
     	

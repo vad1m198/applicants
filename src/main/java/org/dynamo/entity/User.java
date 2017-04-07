@@ -18,8 +18,7 @@ public class User {
 	@Email
 	@Size(min = 3, max = 50)
 	private String email;
-	@Size(min = 3, max = 50)
-	@NotBlank
+	
 	private String password;
 	private List<UserRole> roles;
 	

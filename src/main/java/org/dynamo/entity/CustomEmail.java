@@ -1,6 +1,5 @@
 package org.dynamo.entity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CustomEmail {
@@ -10,19 +9,7 @@ public class CustomEmail {
     private String subject;
     private String htmlmessage;
 
-    public CustomEmail() {}
-
-    public CustomEmail(User user) {
-    	this.to = Arrays.asList(user.getEmail());
-    	this.subject = "Thank you for your interest";
-    	this.htmlmessage = "<html>"
-    			+ "<p>Hello: " + user.getFirstName() + " " + user.getSecondName() + "</p>"
-    			+ "<p>Please pass test <a href='http://localhost:8082'>task</a></p>"
-    			+ "<p>Use <b>" + user.getEmail() + "</b> as username and <b>" + user.getPassword() +"</b> as password</p>"
-    					+ "</html>";
-    }
-
-    public String getFrom() {
+	public String getFrom() {
         return from;
     }
 

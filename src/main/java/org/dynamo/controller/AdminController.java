@@ -2,6 +2,7 @@ package org.dynamo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.dynamo.entity.User;
 import org.dynamo.entity.UserRole;
 import org.dynamo.model.UserFormInfo;
 import org.dynamo.service.MailService;
+import org.dynamo.util.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -112,11 +114,12 @@ public class AdminController {
 		long userId = 0;
 
 		try {
-			if(info.getUser().getId() > 0) {			
+			if(info.getUser().getId() > 0) {
 				userId = userDao.updateUser(info.getUser().getId(), user);
 			} else {
+				user.setPassword(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
 				userId = userDao.createUser(user);
-				CustomEmail mail = new CustomEmail(user);
+				CustomEmail mail = MailUtils.getCreateUserMail(user);
 				mailservice.sendEmail(mail);
 			}
 		} catch(DuplicateKeyException e) {

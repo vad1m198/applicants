@@ -112,10 +112,10 @@ public class UserDaoImpl implements UserDao {
 		params.put("fname", user.getFirstName());
 		params.put("sname", user.getSecondName());
 		params.put("email", user.getEmail());
-		params.put("password", user.getPassword());
+//		params.put("password", user.getPassword());
 		params.put("userId", id);
 		
-		String sql = "update users set first_name=:fname, second_name=:sname, email=:email, password=:password where id=:userId";	
+		String sql = "update users set first_name=:fname, second_name=:sname, email=:email where id=:userId";	
 		namedParameterJdbcTemplate.update(sql, params);
 		
 		String deletesql = "delete from user_user_role where user_id=:userId ";	

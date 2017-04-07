@@ -38,13 +38,13 @@
 			</div>
 			<form:errors cssClass="error-message" path="user.email"/>
 		</div>
-		<div class="slds-form-element">
+		<%--<div class="slds-form-element">
 			<form:label cssClass="slds-form-element__label" path="user.password">Password:</form:label>
 			<div class="slds-form-element__control">
 				<form:input cssClass="slds-input" path="user.password" />
 			</div>
 			<form:errors cssClass="error-message" path="user.password"/>
-		</div>
+		</div> --%>
 		<div class="roles-container">
 			<form:checkboxes path="selectedRoles" items="${userFormInfo.allRoles}" itemLabel="role" itemValue="id" element="div"/>
 			<form:errors path="selectedRoles" class="error-message" />
