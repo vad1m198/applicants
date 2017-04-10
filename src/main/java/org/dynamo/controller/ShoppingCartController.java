@@ -120,7 +120,8 @@ public class ShoppingCartController {
 		if (answer == null) {
 			answer = new ShoppingCartAnswer();
 			answer.setUserId(auth.getUserId());
-		}		
+		}
+		
 		if(answer.getId() > 0 && answer.isSubmitted()) {
 			model.addAttribute("answersForm", answer);
 			return "shopping-cart/show-answers";
@@ -133,9 +134,9 @@ public class ShoppingCartController {
     public String postShoppingCartAnswer(Model model, Authentication authentication,
     		@ModelAttribute ("answersForm") ShoppingCartAnswer answer) {
     	
-    	shoppingCartAnswersService.saveAnswer(answer);
-    	
-    	if(answer.isSubmitted()) {		
+    	long id = shoppingCartAnswersService.saveAnswer(answer);
+    	answer.setId(id);
+    	if(answer.isSubmitted()) {
     		return "redirect:/shopping-cart/answers";
     	}
     	

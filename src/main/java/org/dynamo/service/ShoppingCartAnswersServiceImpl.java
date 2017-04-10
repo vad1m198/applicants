@@ -30,12 +30,13 @@ public class ShoppingCartAnswersServiceImpl implements ShoppingCartAnswersServic
 	}
 
 	@Override
-	public void saveAnswer(ShoppingCartAnswer answer) {
-		answerdao.saveAnswer(answer);
+	public long saveAnswer(ShoppingCartAnswer answer) {
+		long id = answerdao.saveAnswer(answer);
 		User user = userService.findUserById(answer.getUserId());
 		if(answer.isSubmitted()) {
 			CustomEmail mail = MailUtils.getSubmitAnswersMail(answer, user.getFirstName() + " " + user.getSecondName(), env.getProperty("ANSWERS_RECIPIENTS"));
 			mailservice.sendEmail(mail);    		
     	}
+		return id;
 	}	
 }

@@ -6,6 +6,6 @@ public interface ShoppingCartAnswersService {
 	
 	ShoppingCartAnswer getAnswerByUserId(long userId);
 
-	void saveAnswer(ShoppingCartAnswer answer);
+	long saveAnswer(ShoppingCartAnswer answer);
 
 }
