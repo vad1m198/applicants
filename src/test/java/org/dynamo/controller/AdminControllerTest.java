@@ -10,10 +10,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import java.util.Arrays;
 import java.util.List;
 
-import org.dynamo.dao.ProductDao;
-import org.dynamo.dao.UserDao;
-import org.dynamo.entity.Product;
 import org.dynamo.entity.User;
+import org.dynamo.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -26,13 +24,13 @@ public class AdminControllerTest {
 	
     @InjectMocks
     private AdminController controller;
+    
+    @Mock
+    private UserService userService;
             
     @Mock
     private View mockView;
     
-    @Mock
-	private UserDao userDao;
-
     private MockMvc mockMvc;
     
     @Before
@@ -47,7 +45,7 @@ public class AdminControllerTest {
     public void whenGetDashboardThenGetAllUsersFromService() throws Exception {
     	List<User> users = Arrays.asList(new User(), new User());
     	
-    	when(userDao.getAllUsers()).thenReturn(users);
+    	when(userService.getAllUsers()).thenReturn(users);
     	
         mockMvc.perform(get("/admin/dashboard"))
                 .andExpect(status().isOk())

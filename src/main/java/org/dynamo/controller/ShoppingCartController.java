@@ -3,19 +3,15 @@ package org.dynamo.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.dynamo.dao.ProductDao;
-import org.dynamo.dao.ShoppingCartAnswerDao;
-import org.dynamo.entity.CustomEmail;
 import org.dynamo.entity.Product;
 import org.dynamo.entity.ShoppingCartAnswer;
 import org.dynamo.model.AuthenticationUser;
 import org.dynamo.model.CartInfo;
 import org.dynamo.model.CustomerInfo;
-import org.dynamo.service.MailService;
-import org.dynamo.util.MailUtils;
+import org.dynamo.service.ProductService;
+import org.dynamo.service.ShoppingCartAnswersService;
 import org.dynamo.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,21 +26,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ShoppingCartController {
 	
 	@Autowired
-	private ProductDao productdao;
+	private ProductService productService;
 	
 	@Autowired
-	private ShoppingCartAnswerDao answersdao;
-	
-	@Autowired
-	private MailService mailservice;
-	
-	@Autowired
-    private Environment env;
+	private ShoppingCartAnswersService shoppingCartAnswersService;
 	
 	@RequestMapping(value = {"/list"}, method = RequestMethod.GET)
 	public String getProductList(Model model) {
 		
-		model.addAttribute("products", productdao.getAllProducts());
+		model.addAttribute("products", productService.getAllProducts());
 		return "shopping-cart/list";
 	}
 	
@@ -52,7 +42,7 @@ public class ShoppingCartController {
     public String buyProduct(@RequestParam(value = "code", defaultValue = "") String code,
     		Model model, HttpServletRequest request) {
     	
-    	Product product = productdao.getProductByCode(code);
+    	Product product = productService.getProductByCode(code);
     	
     	if(product != null) {
     		CartInfo info = Utils.getCartInSession(request);
@@ -126,7 +116,7 @@ public class ShoppingCartController {
     public String getAnswersView(Model model,Authentication authentication) {
     	
 		AuthenticationUser auth = (AuthenticationUser) authentication.getPrincipal();
-		ShoppingCartAnswer answer = answersdao.getAnswerByUserId(auth.getUserId());
+		ShoppingCartAnswer answer = shoppingCartAnswersService.getAnswerByUserId(auth.getUserId());
 		if (answer == null) {
 			answer = new ShoppingCartAnswer();
 			answer.setUserId(auth.getUserId());
@@ -143,11 +133,9 @@ public class ShoppingCartController {
     public String postShoppingCartAnswer(Model model, Authentication authentication,
     		@ModelAttribute ("answersForm") ShoppingCartAnswer answer) {
     	
-    	long id = answersdao.saveAnswer(answer);
-    	answer.setId(id);    	
-    	if(answer.isSubmitted()) {
-			CustomEmail mail = MailUtils.getSubmitAnswersMail(answer, authentication.getName(), env.getProperty("ANSWERS_RECIPIENTS"));
-			mailservice.sendEmail(mail);
+    	shoppingCartAnswersService.saveAnswer(answer);
+    	
+    	if(answer.isSubmitted()) {		
     		return "redirect:/shopping-cart/answers";
     	}
     	

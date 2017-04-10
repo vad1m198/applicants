@@ -3,7 +3,6 @@ package org.dynamo.service;
 import javax.ws.rs.core.MediaType;
 
 import org.dynamo.entity.CustomEmail;
-import org.dynamo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 

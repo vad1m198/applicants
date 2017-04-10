@@ -3,7 +3,7 @@ CREATE TABLE users (
   first_name VARCHAR(50),
   second_name VARCHAR(50),
   email VARCHAR(50) UNIQUE,
-  password VARCHAR(50)
+  password CLOB
 );
 
 CREATE TABLE user_roles (

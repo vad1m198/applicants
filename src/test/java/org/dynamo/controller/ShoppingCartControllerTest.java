@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.dynamo.dao.ProductDao;
 import org.dynamo.entity.Product;
 import org.dynamo.model.CartInfo;
+import org.dynamo.service.ProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +29,7 @@ public class ShoppingCartControllerTest {
     private ShoppingCartController controller;
     
     @Mock
-	private ProductDao productdao;
+	private ProductService productService;
         
     @Mock
     private View mockView;
@@ -48,7 +48,7 @@ public class ShoppingCartControllerTest {
     public void whenGetProductListThenGetProductsFromService() throws Exception {
     	List<Product> products = Arrays.asList(new Product(), new Product());
     	
-    	when(productdao.getAllProducts()).thenReturn(products);
+    	when(productService.getAllProducts()).thenReturn(products);
     	
         mockMvc.perform(get("/shopping-cart/list"))
                 .andExpect(status().isOk())
@@ -64,8 +64,8 @@ public class ShoppingCartControllerTest {
     	product.setName("name");
     	product.setPrice(new BigDecimal(100));
     	
-    	when(productdao.getAllProducts()).thenReturn(products);
-    	when(productdao.getProductByCode("P001")).thenReturn(product);
+    	when(productService.getAllProducts()).thenReturn(products);
+    	when(productService.getProductByCode("P001")).thenReturn(product);
     	
     	MvcResult result = mockMvc.perform(get("/shopping-cart/buy?code=P001"))
                 .andExpect(status().isOk())

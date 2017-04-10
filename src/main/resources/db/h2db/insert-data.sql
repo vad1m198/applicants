@@ -1,5 +1,6 @@
 INSERT INTO users 
-VALUES ('1','admin', 'admin', 'admin@test.com', 'qwerty'),('2','user', 'user', 'user@test.com', 'qwerty');
+VALUES ('1','admin', 'admin', 'admin@test.com', '$2a$06$HvSOiTRUpM9fPMdbUsC5oeAriCGLRTShX9wlb667sIs2yZ7FGuGcG'),
+		('2','user', 'user', 'user@test.com', '$2a$06$HvSOiTRUpM9fPMdbUsC5oeAriCGLRTShX9wlb667sIs2yZ7FGuGcG');
 
 INSERT INTO user_roles
 VALUES ('1','ADMIN'),('2','SHOPPING_CART_USER');
