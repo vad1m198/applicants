@@ -96,7 +96,7 @@ public class AdminController {
 
 		try {
 			userId = userService.upsertUser(info);
-		} catch(DuplicateKeyException e) {
+		} catch(DuplicateKeyException e) {			
 			result.rejectValue("user.email", "user.email", "A user already exists for this email.");
 			info.setAllRoles(userRoleService.getAllRoles());
 			return "admin/edit";
