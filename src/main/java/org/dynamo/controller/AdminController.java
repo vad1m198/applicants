@@ -10,7 +10,7 @@ import org.dynamo.entity.UserRole;
 import org.dynamo.model.UserFormInfo;
 import org.dynamo.service.ShoppingCartAnswersService;
 import org.dynamo.service.UserRoleService;
-import org.dynamo.service.UserServiceImpl;
+import org.dynamo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class AdminController {
 	private ShoppingCartAnswersService shoppingCartAnswersService;
 	
 	@Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 	
 	@RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
 	public String getDashboard(Model model,@ModelAttribute("userSearch") User user) {
