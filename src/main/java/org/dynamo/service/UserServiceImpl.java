@@ -70,12 +70,14 @@ public class UserServiceImpl implements UserService {
 		if(info.getUser().getId() > 0) {
 			userId = userDao.updateUser(info.getUser().getId(), user);
 		} else {
-			String password = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+			//generate pseudo ramdom password
+			//String password = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+			String password = "qwerty";
 			user.setPassword(passwordEncoder.encode(password));
 			userId = userDao.createUser(user);
 			user.setPassword(password);
-			CustomEmail mail = MailUtils.getCreateUserMail(user);
-			mailservice.sendEmail(mail);
+			//CustomEmail mail = MailUtils.getCreateUserMail(user);
+			//mailservice.sendEmail(mail);
 		}
 		return userId;
 	}

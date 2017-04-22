@@ -13,8 +13,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public class Bootstrap implements WebApplicationInitializer {
 	
-	//-Dspring.profiles.active=dev tomcat7:run
-	
 	public void onStartup(ServletContext container) throws ServletException {
         container.getServletRegistration("default").addMapping("/resource/*");
 
@@ -22,7 +20,7 @@ public class Bootstrap implements WebApplicationInitializer {
                 new AnnotationConfigWebApplicationContext();
         rootContext.register(RootContextConfiguration.class);
         container.addListener(new ContextLoaderListener(rootContext));
-//
+
         AnnotationConfigWebApplicationContext servletContext =
                 new AnnotationConfigWebApplicationContext();
         servletContext.register(ServletContextConfiguration.class);
@@ -32,12 +30,6 @@ public class Bootstrap implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
 
-//        FilterRegistration.Dynamic registration = container.addFilter(
-//                "authenticationFilter", new AuthenticationFilter()
-//        );
-//        registration.addMappingForUrlPatterns(
-//                null, false, "/welcome","/shopping-cart/*","/admin/*");
-        
         FilterRegistration.Dynamic fr = container.addFilter("encodingFilter", CharacterEncodingFilter.class);
 
         fr.setInitParameter("encoding", "UTF-8");
